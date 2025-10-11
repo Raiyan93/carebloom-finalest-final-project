@@ -233,14 +233,14 @@ const { data: donorProfile2, error: donorError } = await this.supabase
         if (intendedRole === 'ngo') {
             console.log('🔄 Redirecting to NGO registration based on context');
             this.isProcessingLogin = false;
-            window.location.href = 'NGORegistration.html?message=Please complete your NGO registration';
+            window.location.href = 'ngoregistration.html?message=Please complete your NGO registration';
             return;
         }
 
         // Default fallback - redirect to role selection
         console.log('❓ No profile found and no context, redirecting to role selection');
         this.isProcessingLogin = false;
-        window.location.href = 'DonorOrNgo.html';
+        window.location.href = 'donororngo.html';
 
     } catch (error) {
         console.error('💥 Login failed:', error);
@@ -249,7 +249,7 @@ const { data: donorProfile2, error: donorError } = await this.supabase
         // Handle case where no profile exists
         if (error.code === 'PGRST116') {
             console.log('❓ User has no profile, redirecting to role selection');
-            window.location.href = 'DonorOrNgo.html';
+            window.location.href = 'donororngo.html';
             return;
         }
         
@@ -317,7 +317,7 @@ const { data: donorProfile2, error: donorError } = await this.supabase
 
             if (signInError) {
                 console.warn('⚠️ Auto sign-in failed, but registration was successful. Redirecting to login.');
-                window.location.href = 'LoginSignUp.html?message=Registration successful! Please sign in.';
+                window.location.href = 'loginsignup.html?message=Registration successful! Please sign in.';
                 return;
             }
 
@@ -458,7 +458,7 @@ const { data: donorProfile2, error: donorError } = await this.supabase
             if (signInError) {
                 console.warn('⚠️ Auto sign-in failed, but registration was successful. Redirecting to login.');
                 // If auto-login fails, fall back to login page with a message
-                window.location.href = 'LoginSignUp.html?message=Registration successful! Please sign in to check your status.';
+                window.location.href = 'loginsignup.html?message=Registration successful! Please sign in to check your status.';
                 return;
             }
 
@@ -634,7 +634,7 @@ const { data: donorProfile2, error: donorError } = await this.supabase
             // User can now re-register with the same email
 
             // Redirect to home page
-            window.location.href = 'LandingPage.html?message=Account deleted successfully. You can re-register with the same email.';
+            window.location.href = 'landingpage.html?message=Account deleted successfully. You can re-register with the same email.';
 
         } catch (error) {
             console.error('💥 Account deletion failed:', error);
@@ -690,11 +690,11 @@ async logoutUser() {
         console.log('✅ Logout completed');
         
         // Redirect to login
-        window.location.href = 'LoginSignUp.html';
+        window.location.href = 'loginsignup.html';
         
     } catch (error) {
         console.error('💥 Logout failed:', error);
-        window.location.href = 'LoginSignUp.html';
+        window.location.href = 'loginsignup.html';
     }
 }
 

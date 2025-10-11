@@ -183,7 +183,7 @@
             if (!session) {
                 console.log('❌ No session found, redirecting to login');
                 alert('Please log in to access the NGO dashboard');
-                window.location.href = 'LoginSignUp.html';
+                window.location.href = 'loginsignup.html';
                 return;
             }
             
@@ -195,7 +195,7 @@
             if (error || !ngoProfile) {
                 console.log('❌ No NGO profile found, redirecting');
                 alert('NGO profile not found. Please complete NGO registration.');
-                window.location.href = 'NGORegistration.html';
+                window.location.href = 'ngoregistration.html';
                 return;
             }
 

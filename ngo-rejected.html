@@ -69,7 +69,7 @@
             console.log('🔍 Checking NGO rejected page authentication...');
             const session = await window.authHelper.checkAuth();
             if (!session) {
-                window.location.href = 'LoginSignUp.html';
+                window.location.href = 'loginsignup.html';
                 return;
             }
 
@@ -80,7 +80,7 @@
                 .single();
             if (error || !ngoProfile) {
                 console.log('❌ No NGO profile found');
-                window.location.href = 'DonorOrNgo.html';
+                window.location.href = 'donororngo.html';
                 return;
             }
 
@@ -149,7 +149,7 @@
         
         setTimeout(() => {
             // Just pass isReapplication flag, let user enter whatever email they want
-            window.location.href = `NGORegistration.html?isReapplication=true`;
+            window.location.href = `ngoregistration.html?isReapplication=true`;
         }, 1000);
 
     } catch (error) {
