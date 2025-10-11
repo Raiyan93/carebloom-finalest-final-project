@@ -206,34 +206,11 @@ if (donorProfile && donorProfile.role === 'admin') {
     return;
 }
 
-// If not NGO, check if donor
-const { data: donorProfile2, error: donorError } = await this.supabase
-    .from('donor_profiles')
-    .select('id')
-    .eq('id', data.user.id)
-            .maybeSingle();
-
-        console.log('🎯 Donor profile check:', { donorProfile2, donorError });
-
-        if (donorProfile2) {
+        // If not an admin or NGO, check for a donor profile.
+        if (donorProfile) {
             console.log('🎯 User is a donor, redirecting to donor dashboard');
             this.isProcessingLogin = false;
             window.location.href = 'dashboard.html';
-            return;
-        }
-
-        // NEW: Check if user has no profile but was trying to register as NGO
-        // Look for any pending NGO registration attempts or recent activity
-        console.log('❓ User has no profile, checking registration context...');
-        
-        // Check if there's a recent signup attempt or if we should redirect to NGO registration
-        const urlParams = new URLSearchParams(window.location.search);
-        const intendedRole = urlParams.get('role') || localStorage.getItem('intended_role');
-        
-        if (intendedRole === 'ngo') {
-            console.log('🔄 Redirecting to NGO registration based on context');
-            this.isProcessingLogin = false;
-            window.location.href = 'ngoregistration.html?message=Please complete your NGO registration';
             return;
         }
 

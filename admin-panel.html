@@ -45,6 +45,7 @@
         
         checkAuth();
     });
+    
 
     async function checkAuth() {
         try {
@@ -62,6 +63,7 @@
                 window.location.href = 'index.html';
                 return;
             }
+            
 
             // ONLY show content if user is authenticated admin
             document.body.innerHTML = `

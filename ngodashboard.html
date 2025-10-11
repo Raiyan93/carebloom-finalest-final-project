@@ -8,9 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
 <body class="bg-gradient-to-r from-pink-100 via-rose-100 to-orange-100">
-    <div class="flex min-h-screen">
+    <div class="relative min-h-screen md:flex">
 
-        <aside class="w-64 flex-shrink-0 bg-amber-50 shadow-lg flex flex-col">
+        <!-- Mobile menu button -->
+        <div class="md:hidden flex justify-between items-center p-4 bg-amber-50 shadow-lg">
+            <button id="mobile-menu-btn" class="text-pink-600 focus:outline-none"><i class="fas fa-bars text-2xl"></i></button>
+            <div class="text-xl font-bold">🌱Care<span class="text-pink-600">Bloom</span></div>
+        </div>
+
+        <aside id="sidebar" class="w-64 flex-shrink-0 bg-amber-50 shadow-lg flex-col absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out z-30 flex">
             <div class="p-6 text-2xl font-bold text-center border-b">🌱Care<span class="text-pink-600">Bloom</span></div>
             <nav class="flex-grow p-4 space-y-2">
                 <a href="#" id="nav-browse" class="nav-link flex items-center px-4 py-3 font-semibold text-white hover:bg-pink-100 bg-pink-500 rounded-lg">
@@ -33,11 +39,11 @@
             </div>
         </aside>
 
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-4 sm:p-6">
             <div id="view-browse">
                 <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-6 mb-6">
-                    <h1 class="font-bold text-black text-3xl">Welcome, <span id="ngo-name-header">NGO</span>! 🌟</h1>
-                    <p class="mt-1.5 text-xl font-normal text-black">Browse available items from generous donors in your area.</p>
+                    <h1 class="font-bold text-black text-2xl sm:text-3xl">Welcome, <span id="ngo-name-header">NGO</span>! 🌟</h1>
+                    <p class="mt-1.5 text-lg sm:text-xl font-normal text-black">Browse available items from generous donors in your area.</p>
                 </div>
 
                 <div id="tag-filter" class="mb-6 p-6 bg-white rounded-xl shadow-lg">
@@ -70,8 +76,8 @@
 
             <div id="view-requests" class="hidden">
                 <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-6 mb-6">
-                    <h1 class="font-bold text-black text-3xl">My Requests Tracker</h1>
-                    <p class="mt-1.5 text-xl font-normal text-black">Track the status of items you have requested.</p>
+                    <h1 class="font-bold text-black text-2xl sm:text-3xl">My Requests Tracker</h1>
+                    <p class="mt-1.5 text-lg sm:text-xl font-normal text-black">Track the status of items you have requested.</p>
                 </div>
                 <div id="requests-grid" class="space-y-6">
                     <p id="no-requests-message" class="col-span-full text-center text-gray-600 text-lg">You haven't requested any items yet.</p>
@@ -80,8 +86,8 @@
 
             <div id="view-tracking" class="hidden">
                 <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-6 mb-6">
-                    <h1 class="font-bold text-black text-3xl">Delivery Management</h1>
-                    <p class="mt-1.5 text-xl font-normal text-black">Manage and track your item deliveries.</p>
+                    <h1 class="font-bold text-black text-2xl sm:text-3xl">Delivery Management</h1>
+                    <p class="mt-1.5 text-lg sm:text-xl font-normal text-black">Manage and track your item deliveries.</p>
                 </div>
                 <div id="tracking-grid" class="space-y-6">
                     <p id="no-tracking-message" class="col-span-full text-center text-gray-600 text-lg">No active deliveries to manage.</p>
@@ -90,52 +96,52 @@
             
             <div id="view-profile" class="hidden">
                 <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
-                    <h1 class="font-bold text-black text-3xl mb-6">Organization Profile 🛡️</h1>
+                    <h1 class="font-bold text-black text-2xl sm:text-3xl mb-6">Organization Profile 🛡️</h1>
                     <form id="ngo-profile-form" class="space-y-6">
                         <div>
-                            <label for="profile-ngo-name" class="block text-xl text-black font-medium mb-2">NGO Name</label>
+                            <label for="profile-ngo-name" class="block text-lg sm:text-xl text-black font-medium mb-2">NGO Name</label>
                             <input id="profile-ngo-name" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
                         </div>
                         <div>
-                            <label for="profile-org-type" class="block text-xl text-black font-medium mb-2">Organization Type</label>
+                            <label for="profile-org-type" class="block text-lg sm:text-xl text-black font-medium mb-2">Organization Type</label>
                             <input id="profile-org-type" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
                         </div>
                         <div>
-                            <label for="profile-reg-number" class="block text-xl text-black font-medium mb-2">Registration Number</label>
+                            <label for="profile-reg-number" class="block text-lg sm:text-xl text-black font-medium mb-2">Registration Number</label>
                             <input id="profile-reg-number" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
                         </div>
                         <div>
-                            <label for="profile-address" class="block text-xl text-black font-medium mb-2">Address</label>
+                            <label for="profile-address" class="block text-lg sm:text-xl text-black font-medium mb-2">Address</label>
                             <textarea id="profile-address" rows="3" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <div>
-                                <label for="profile-city" class="block text-xl text-black font-medium mb-2">City *</label>
+                                <label for="profile-city" class="block text-lg sm:text-xl text-black font-medium mb-2">City *</label>
                                 <input id="profile-city" type="text" value="Mumbai" readonly class="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-100 cursor-not-allowed">
                             </div>
                             <div>
-                                <label for="profile-state" class="block text-xl text-black font-medium mb-2">State *</label>
+                                <label for="profile-state" class="block text-lg sm:text-xl text-black font-medium mb-2">State *</label>
                                 <input id="profile-state" type="text" value="Maharashtra" readonly class="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-100 cursor-not-allowed">
                             </div>
                             <div>
-                                <label for="profile-pincode" class="block text-xl text-black font-medium mb-2">Pincode</label>
+                                <label for="profile-pincode" class="block text-lg sm:text-xl text-black font-medium mb-2">Pincode</label>
                                 <input id="profile-pincode" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
                             </div>
                                                 </div>
                         
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label for="profile-contact-phone" class="block text-xl text-black font-medium mb-2">Contact Phone</label>
+                                <label for="profile-contact-phone" class="block text-lg sm:text-xl text-black font-medium mb-2">Contact Phone</label>
                                 <input id="profile-contact-phone" type="tel" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
                             </div>
                             <div>
-                                <label for="profile-contact-email" class="block text-xl text-black font-medium mb-2">Contact Email</label>
+                                <label for="profile-contact-email" class="block text-lg sm:text-xl text-black font-medium mb-2">Contact Email</label>
                                 <input id="profile-contact-email" type="email" readonly class="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-100 cursor-not-allowed">
                             </div>
                         </div>
                         
                         <div>
-                            <label for="profile-website" class="block text-xl text-black font-medium mb-2">Website</label>
+                            <label for="profile-website" class="block text-lg sm:text-xl text-black font-medium mb-2">Website</label>
                             <input id="profile-website" type="url" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
                         </div>
                         <button type="submit" class="w-full bg-pink-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors">
@@ -146,6 +152,10 @@
             </div>
         </main>
     </div>
+
+    <!-- Overlay for mobile menu -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
+
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <div id="request-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
         <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
@@ -558,6 +568,17 @@
                         switchView(viewId);
                     });
                 });
+                // Mobile menu toggle
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                });
+                overlay.addEventListener('click', () => {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                });
                 document.getElementById("nav-logout").addEventListener("click", async (e) => {
                     e.preventDefault();
                     await window.authHelper.logoutUser();
@@ -589,6 +610,12 @@
                 const activeNav = document.getElementById(`nav-${viewName}`);
                 activeNav.classList.remove('text-gray-600', 'hover:bg-pink-100');
                 activeNav.classList.add('bg-pink-500', 'text-white');
+
+                // Hide sidebar on mobile after navigation
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
 
                 if (viewName === 'browse') {
                     fetchAvailableDonations();

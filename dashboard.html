@@ -27,8 +27,14 @@
     </style>
   </head>
   <body class="bg-gradient-to-r from-pink-100 via-rose-100 to-orange-100 min-h-screen">
-    <div class="flex min-h-screen">
-      <aside class="w-64 flex-shrink-0 bg-amber-50 shadow-lg flex flex-col">
+    <div class="relative min-h-screen md:flex">
+      <!-- Mobile menu button -->
+      <div class="md:hidden flex justify-between items-center p-4 bg-amber-50 shadow-lg">
+        <button id="mobile-menu-btn" class="text-pink-600 focus:outline-none"><i class="fas fa-bars text-2xl"></i></button>
+        <div class="text-xl font-bold">🌱Care<span class="text-pink-600">Bloom</span></div>
+      </div>
+
+      <aside id="sidebar" class="w-64 flex-shrink-0 bg-amber-50 shadow-lg flex-col absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-transform duration-200 ease-in-out z-30 flex">
         <div class="p-6 text-2xl font-bold text-center border-b">🌱Care<span class="text-pink-600">Bloom</span></div>
         <nav class="flex-grow p-4 space-y-2">
             <a href="#" id="nav-dashboard" class="nav-link flex items-center px-4 py-3 font-semibold text-white bg-pink-500 rounded-lg">
@@ -60,16 +66,16 @@
         </div>
       </aside>
 
-      <main class="flex-1 p-6">
+      <main class="flex-1 p-4 sm:p-6">
         <div id="view-dashboard">
           <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-6 mb-6">
-            <h1 class="font-bold text-black text-3xl">Welcome, <span id="user-name">User</span>! 🌷</h1>
-            <p class="mt-1.5 text-xl font-normal text-black">
+            <h1 class="font-bold text-black text-2xl sm:text-3xl">Welcome, <span id="user-name">User</span>! 🌷</h1>
+            <p class="mt-1.5 text-lg sm:text-xl font-normal text-black">
               Your Garden is Flourishing!
               You have helped <span id="ngo-count">0</span> NGOs and Touched <span id="lives-touched">0</span> Lives! 🎗️
             </p>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
             <div class="bg-white rounded-xl shadow-lg p-6 text-center">
               <div class="text-3xl font-bold text-pink-600 mb-2" id="total-donations">0</div>
               <div class="text-gray-600">Total Donations</div>
@@ -84,18 +90,18 @@
             </div>
           </div>
           <section class="donation-form bg-amber-50 rounded-2xl shadow-xl p-8">
-            <h2 class="text-2xl text-black font-bold mb-6">Plant a New Seed (Make a new donation) 🌱</h2>
+            <h2 class="text-xl sm:text-2xl text-black font-bold mb-6">Plant a New Seed (Make a new donation) 🌱</h2>
             <form id="donation-form" class="space-y-6">
               <div>
-                <label for="item-name" class="block text-xl text-black font-medium mb-2">Item Name</label>
+                <label for="item-name" class="block text-lg sm:text-xl text-black font-medium mb-2">Item Name</label>
                 <input id="item-name" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="e.g., Winter Jacket">
               </div>
               <div>
-                <label for="quantity-required" class="block text-xl text-black font-medium mb-2">Quantity</label>
+                <label for="quantity-required" class="block text-lg sm:text-xl text-black font-medium mb-2">Quantity</label>
                 <input id="quantity-required" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="e.g., 5 jackets">
               </div>
               <div>
-                <label for="item-images" class="block text-xl text-black font-medium mb-2">Add Photos</label>
+                <label for="item-images" class="block text-lg sm:text-xl text-black font-medium mb-2">Add Photos</label>
                 <div class="image-upload-area relative flex flex-col justify-center items-center p-8 border-2 border-dashed border-pink-500 rounded-lg cursor-pointer bg-pink-50 hover:bg-pink-100 transition-colors duration-200 min-h-[200px]">
                   <input type="file" id="item-images" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
                   <div class="text-center">
@@ -107,11 +113,11 @@
                 </div>
               </div>
               <div>
-                <label for="item-description" class="block text-xl text-black font-medium mb-2">Item Description</label>
+                <label for="item-description" class="block text-lg sm:text-xl text-black font-medium mb-2">Item Description</label>
                 <textarea id="item-description" rows="4" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Describe the item's condition, size, etc."></textarea>
               </div>
               <div>
-                <label class="block text-xl text-black font-medium mb-2">Select Tag</label>
+                <label class="block text-lg sm:text-xl text-black font-medium mb-2">Select Tag</label>
                 <div class="flex flex-wrap gap-2" id="tag-buttons">
                     <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Books</button>
                     <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Clothes</button>
@@ -141,46 +147,46 @@
 
         <div id="view-donations" class="hidden">
           <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
-            <h1 class="font-bold text-black text-3xl mb-6">My Donations 🎁</h1>
+            <h1 class="font-bold text-black text-2xl sm:text-3xl mb-6">My Donations 🎁</h1>
             <div id="donations-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
           </div>
         </div>
 
         <div id="view-requests" class="hidden">
           <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
-            <h1 class="font-bold text-black text-3xl mb-6">Donation Requests 🤝</h1>
+            <h1 class="font-bold text-black text-2xl sm:text-3xl mb-6">Donation Requests 🤝</h1>
             <div id="requests-container" class="space-y-6"></div>
           </div>
         </div>
 
         <div id="view-tracking" class="hidden">
             <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
-                <h1 class="font-bold text-black text-3xl mb-6">Delivery Process 🚚</h1>
+                <h1 class="font-bold text-black text-2xl sm:text-3xl mb-6">Delivery Process 🚚</h1>
                 <div id="tracking-container" class="space-y-6">
                     <p class="text-center text-gray-500">Loading delivery process...</p>
                 </div>
             </div>
         </div>
 
-        <div id="view-profile" class="hidden">
+        <div id="view-profile" class="hidden ">
           <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
             <div class="flex justify-between items-start mb-6">
-                <h1 class="font-bold text-black text-3xl">My Profile 👤</h1>
+                <h1 class="font-bold text-black text-2xl sm:text-3xl">My Profile 👤</h1>
                 <div id="profile-badges" class="flex items-center gap-3"></div>
             </div>
             <form id="profile-form" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="profile-first-name" class="block text-xl font-medium mb-2">First Name</label>
+                        <label for="profile-first-name" class="block text-lg sm:text-xl font-medium mb-2">First Name</label>
                         <input id="profile-first-name" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
                     </div>
                     <div>
-                        <label for="profile-last-name" class="block text-xl font-medium mb-2">Last Name</label>
+                        <label for="profile-last-name" class="block text-lg sm:text-xl font-medium mb-2">Last Name</label>
                         <input id="profile-last-name" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
                     </div>
                 </div>
                 <div>
-                    <label for="profile-email" class="block text-xl font-medium mb-2">Email</label>
+                    <label for="profile-email" class="block text-lg sm:text-xl font-medium mb-2">Email</label>
                     <input id="profile-email" type="email" disabled class="w-full px-4 py-2 rounded-lg bg-gray-100 cursor-not-allowed">
                 </div>
                 <div>
@@ -188,15 +194,15 @@
                     <input id="profile-phone-number" type="tel" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
                 </div>
                 <div>
-                    <label for="profile-age" class="block text-xl font-medium mb-2">Age</label>
+                    <label for="profile-age" class="block text-lg sm:text-xl font-medium mb-2">Age</label>
                     <input id="profile-age" type="number" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
                 </div>
                 <div>
-                    <label for="profile-pin-code" class="block text-xl font-medium mb-2">Pincode</label>
+                    <label for="profile-pin-code" class="block text-lg sm:text-xl font-medium mb-2">Pincode</label>
                     <input id="profile-pin-code" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
                 </div>
                 <div>
-                    <label for="profile-address" class="block text-xl font-medium mb-2">Full Address</label>
+                    <label for="profile-address" class="block text-lg sm:text-xl font-medium mb-2">Full Address</label>
                     <textarea id="profile-address" rows="3" required class="w-full px-4 py-2 rounded-lg border border-gray-300"></textarea>
                 </div>
                 <button id="update-profile-btn" type="submit" class="w-full bg-pink-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-700">
@@ -209,7 +215,7 @@
         <div id="view-redemption" class="hidden">
             <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
                 <div class="flex justify-between items-start mb-6">
-                    <h1 class="font-bold text-black text-3xl">Redeem Your Rewards ⭐</h1>
+                    <h1 class="font-bold text-black text-2xl sm:text-3xl">Redeem Your Rewards ⭐</h1>
                     <div id="redemption-badges" class="flex items-center gap-3"></div>
                 </div>
                 <div id="redemption-content"></div>
@@ -218,7 +224,7 @@
 
         <div id="view-feedback" class="hidden">
             <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
-                <h1 class="font-bold text-black text-3xl mb-6">Share Your Feedback 💬</h1>
+                <h1 class="font-bold text-black text-2xl sm:text-3xl mb-6">Share Your Feedback 💬</h1>
                 <form id="feedback-form">
                     <label for="feedback-text" class="block text-lg font-medium mb-2">How can we improve?</label>
                     <textarea id="feedback-text" rows="6" class="w-full p-4 border rounded-lg" placeholder="Type your feedback here..."></textarea>
@@ -228,6 +234,9 @@
         </div>
       </main>
     </div>
+
+    <!-- Overlay for mobile menu -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
 
     <div id="confirmation-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
       <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center">
@@ -306,6 +315,12 @@
                 activeNav.classList.remove('text-gray-600', 'hover:bg-pink-100');
                 activeNav.classList.add('bg-pink-500', 'text-white');
 
+                // Hide sidebar on mobile after navigation
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+
                 if (viewName === 'donations') loadDonations();
                 else if (viewName === 'requests') loadDonationRequests();
                 else if (viewName === 'tracking') loadDeliveryProcess();
@@ -366,6 +381,17 @@
                         e.preventDefault();
                         switchView(e.currentTarget.id.replace('nav-', ''));
                     });
+                });
+                // Mobile menu toggle
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                });
+                overlay.addEventListener('click', () => {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
                 });
                 document.getElementById('nav-logout').addEventListener('click', async (e) => {
                     e.preventDefault();
