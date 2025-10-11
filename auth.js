@@ -634,7 +634,7 @@ const { data: donorProfile2, error: donorError } = await this.supabase
             // User can now re-register with the same email
 
             // Redirect to home page
-            window.location.href = 'landingpage.html?message=Account deleted successfully. You can re-register with the same email.';
+            window.location.href = 'index.html?message=Account deleted successfully. You can re-register with the same email.';
 
         } catch (error) {
             console.error('💥 Account deletion failed:', error);
