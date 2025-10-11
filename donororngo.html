@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Us - CareBloom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 
+      This <style> block defines the animation itself.
+      It's the standard way to add custom keyframe animations in a single HTML file.
+      All other styling is done with Tailwind classes below.
+    -->
+    <style>
+        @keyframes riseUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* We create a utility class to apply our animation */
+        .animation-rise-up {
+            animation: riseUp 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-pink-50">
+
+    <!-- Main Container -->
+    <div class="min-h-screen flex items-center justify-center p-4">
+        
+        <!-- 
+          Here we apply our custom animation class along with all the Tailwind classes.
+          The "animation-rise-up" class triggers the animation defined in the <style> block.
+        -->
+        <div class="bg-white shadow-xl w-full max-w-4xl p-8 sm:p-12 rounded-2xl animation-rise-up">
+            
+            <!-- Header Section -->
+            <div class="text-center mb-10">
+                <h1 class="text-3xl md:text-4xl font-bold text-pink-600">Welcome to CareBloom</h1>
+                <p class="text-gray-500 mt-3 text-lg">How would you like to join our community?</p>
+            </div>
+
+            <!-- Choices Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Donor Choice Card -->
+                <a href="CreateProfile.html" class="block p-8 bg-pink-50 rounded-xl border border-transparent hover:border-pink-300 hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer">
+                    <div class="text-center">
+                        <!-- Icon -->
+                        <div class="flex justify-center mb-4">
+                            <div class="inline-block bg-white p-4 rounded-full">
+                                <svg class="w-12 h-12 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                                </svg>                                
+                            </div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">I am a Donor</h2>
+                        <p class="text-gray-600 mt-2">Find and support inspiring causes. Sign up to make a donation.</p>
+                    </div>
+                </a>
+
+                <!-- NGO Choice Card -->
+                <a href="NGORegistration.html" class="block p-8 bg-pink-50 rounded-xl border border-transparent hover:border-pink-300 hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 ease-in-out cursor-pointer">
+                    <div class="text-center">
+                        <!-- Icon -->
+                        <div class="flex justify-center mb-4">
+                           <div class="inline-block bg-white p-4 rounded-full">
+                                <svg class="w-12 h-12 text-pink-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+                                </svg>
+                           </div>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800">I am an NGO</h2>
+                        <p class="text-gray-600 mt-2">Register your organization to connect with donors and receive support.</p>
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // No auto-redirect - allow users to choose their role freely
+        // This page is specifically for new users to select their path
+    </script>
+</body>
+</html>

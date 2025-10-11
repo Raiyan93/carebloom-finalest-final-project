@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>NGO Dashboard - CareBloom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body class="bg-gradient-to-r from-pink-100 via-rose-100 to-orange-100">
+    <div class="flex min-h-screen">
+
+        <aside class="w-64 flex-shrink-0 bg-amber-50 shadow-lg flex flex-col">
+            <div class="p-6 text-2xl font-bold text-center border-b">🌱Care<span class="text-pink-600">Bloom</span></div>
+            <nav class="flex-grow p-4 space-y-2">
+                <a href="#" id="nav-browse" class="nav-link flex items-center px-4 py-3 font-semibold text-white hover:bg-pink-100 bg-pink-500 rounded-lg">
+                    <i class="fas fa-search w-6 text-center mr-3"></i>Browse Donations
+                </a>
+                <a href="#" id="nav-requests" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                    <i class="fas fa-tasks w-6 text-center mr-3"></i>My Requests
+                </a>
+                <a href="#" id="nav-tracking" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                    <i class="fas fa-shipping-fast w-6 text-center mr-3"></i>Delivery Tracking
+                </a>
+                <a href="#" id="nav-profile" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                    <i class="fas fa-user-shield w-6 text-center mr-3"></i>Profile
+                </a>
+            </nav>
+            <div class="p-4 border-t">
+                <a href="#" id="nav-logout" class="flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                    <i class="fas fa-sign-out-alt w-6 text-center mr-3"></i>Logout
+                </a>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-6">
+            <div id="view-browse">
+                <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-6 mb-6">
+                    <h1 class="font-bold text-black text-3xl">Welcome, <span id="ngo-name-header">NGO</span>! 🌟</h1>
+                    <p class="mt-1.5 text-xl font-normal text-black">Browse available items from generous donors in your area.</p>
+                </div>
+
+                <div id="tag-filter" class="mb-6 p-6 bg-white rounded-xl shadow-lg">
+                    <h3 class="text-lg font-semibold mb-4">🏷️ Filter by Category</h3>
+                    <div class="flex flex-wrap gap-2" id="tag-buttons">
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Books">Books</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Clothes">Clothes</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Toys">Toys</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Utensils">Utensils</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Electronics">Electronics</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Small furniture">Small furniture</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Sports Equipment">Sports Equipment</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Bedding & Blankets">Bedding & Blankets</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Towels">Towels</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Baby Gear (strollers, car seats)">Baby Gear (strollers, car seats)</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Feminine Hygiene Products">Feminine Hygiene Products</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="First-Aid Supplies">First-Aid Supplies</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Medical Aids (Wheelchairs, Crutches)">Medical Aids (Wheelchairs, Crutches)</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Tools & Hardware">Tools & Hardware</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Pet Supplies">Pet Supplies</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Cleaning Supplies">Cleaning Supplies</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Home Appliances (Small)">Home Appliances (Small)</button>
+                        <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors" data-tag="Others">Others</button>
+                    </div>
+                </div>
+                <div id="donations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <p id="no-donations-message" class="col-span-full text-center text-gray-600 text-lg">Loading available donations...</p>
+                </div>
+            </div>
+
+            <div id="view-requests" class="hidden">
+                <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-6 mb-6">
+                    <h1 class="font-bold text-black text-3xl">My Requests Tracker</h1>
+                    <p class="mt-1.5 text-xl font-normal text-black">Track the status of items you have requested.</p>
+                </div>
+                <div id="requests-grid" class="space-y-6">
+                    <p id="no-requests-message" class="col-span-full text-center text-gray-600 text-lg">You haven't requested any items yet.</p>
+                </div>
+            </div>
+
+            <div id="view-tracking" class="hidden">
+                <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-6 mb-6">
+                    <h1 class="font-bold text-black text-3xl">Delivery Management</h1>
+                    <p class="mt-1.5 text-xl font-normal text-black">Manage and track your item deliveries.</p>
+                </div>
+                <div id="tracking-grid" class="space-y-6">
+                    <p id="no-tracking-message" class="col-span-full text-center text-gray-600 text-lg">No active deliveries to manage.</p>
+                </div>
+            </div>
+            
+            <div id="view-profile" class="hidden">
+                <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
+                    <h1 class="font-bold text-black text-3xl mb-6">Organization Profile 🛡️</h1>
+                    <form id="ngo-profile-form" class="space-y-6">
+                        <div>
+                            <label for="profile-ngo-name" class="block text-xl text-black font-medium mb-2">NGO Name</label>
+                            <input id="profile-ngo-name" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                        </div>
+                        <div>
+                            <label for="profile-org-type" class="block text-xl text-black font-medium mb-2">Organization Type</label>
+                            <input id="profile-org-type" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                        </div>
+                        <div>
+                            <label for="profile-reg-number" class="block text-xl text-black font-medium mb-2">Registration Number</label>
+                            <input id="profile-reg-number" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                        </div>
+                        <div>
+                            <label for="profile-address" class="block text-xl text-black font-medium mb-2">Address</label>
+                            <textarea id="profile-address" rows="3" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label for="profile-city" class="block text-xl text-black font-medium mb-2">City *</label>
+                                <input id="profile-city" type="text" value="Mumbai" readonly class="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-100 cursor-not-allowed">
+                            </div>
+                            <div>
+                                <label for="profile-state" class="block text-xl text-black font-medium mb-2">State *</label>
+                                <input id="profile-state" type="text" value="Maharashtra" readonly class="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-100 cursor-not-allowed">
+                            </div>
+                            <div>
+                                <label for="profile-pincode" class="block text-xl text-black font-medium mb-2">Pincode</label>
+                                <input id="profile-pincode" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                            </div>
+                                                </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="profile-contact-phone" class="block text-xl text-black font-medium mb-2">Contact Phone</label>
+                                <input id="profile-contact-phone" type="tel" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                            </div>
+                            <div>
+                                <label for="profile-contact-email" class="block text-xl text-black font-medium mb-2">Contact Email</label>
+                                <input id="profile-contact-email" type="email" readonly class="w-full px-4 py-2 rounded-lg border border-gray-300 bg-gray-100 cursor-not-allowed">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="profile-website" class="block text-xl text-black font-medium mb-2">Website</label>
+                            <input id="profile-website" type="url" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400">
+                        </div>
+                        <button type="submit" class="w-full bg-pink-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors">
+                            Update Profile
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div id="request-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
+            <h3 class="text-xl font-bold mb-4">Confirm Request</h3>
+            <p class="text-gray-600 mb-6">Are you sure you want to request this item?</p>
+            <div class="flex justify-center gap-4">
+                <button id="request-modal-cancel-btn" class="px-6 py-2 bg-gray-200 rounded-lg font-semibold">Cancel</button>
+                <button id="request-modal-confirm-btn" class="px-6 py-2 bg-pink-600 text-white rounded-lg font-semibold">Yes, Request</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="delivery-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md text-center">
+            <h3 class="text-xl font-bold mb-4" id="delivery-modal-title">Update Delivery Status</h3>
+            <p class="text-gray-600 mb-6" id="delivery-modal-text">Confirm the current status of this delivery.</p>
+            <div class="space-y-3 mb-6">
+                <button data-status="delivered" class="w-full px-4 py-3 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition-colors">
+                    Mark as Delivered
+                </button>
+            </div>
+            <div class="flex justify-center gap-4">
+                <button id="delivery-modal-cancel-btn" class="px-6 py-2 bg-gray-200 rounded-lg font-semibold">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./auth.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            console.log('🔐 Checking NGO Dashboard authentication...');
+            const session = await window.authHelper.checkAuth();
+            
+            if (!session) {
+                console.log('❌ No session found, redirecting to login');
+                alert('Please log in to access the NGO dashboard');
+                window.location.href = 'LoginSignUp.html';
+                return;
+            }
+            
+            const { data: ngoProfile, error } = await window.authHelper.supabase
+                .from('ngo_profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+            if (error || !ngoProfile) {
+                console.log('❌ No NGO profile found, redirecting');
+                alert('NGO profile not found. Please complete NGO registration.');
+                window.location.href = 'NGORegistration.html';
+                return;
+            }
+
+            console.log('✅ NGO authentication successful:', ngoProfile.ngo_name);
+            let currentUser = session.user;
+            let currentNgoProfile = ngoProfile;
+            let selectedTag = null; // NEW: Use tag instead of location filter
+            let currentDonationId = null;
+            let currentTrackingId = null;
+            
+            await initializeDashboard();
+
+            async function initializeDashboard() {
+                document.getElementById('ngo-name-header').textContent = currentNgoProfile.ngo_name;
+                loadProfileData();
+                setupTagFilter(); // NEW: Setup tag filter instead of location filter
+                fetchAvailableDonations();
+                setupEventListeners();
+            }
+
+            // NEW: Function to setup tag filter
+            function setupTagFilter() {
+                const tagButtons = document.querySelectorAll('.tag-btn');
+                tagButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Deselect all buttons
+                        tagButtons.forEach(b => {
+                            b.classList.remove('bg-pink-500', 'text-white');
+                            b.classList.add('bg-white', 'text-pink-600');
+                        });
+
+                        const tag = btn.dataset.tag;
+                        if (selectedTag === tag) {
+                            // If same tag is clicked, deselect it
+                            selectedTag = null;
+                        } else {
+                            // Select the new tag
+                            selectedTag = tag;
+                            btn.classList.add('bg-pink-500', 'text-white');
+                            btn.classList.remove('bg-white', 'text-pink-600');
+                        }
+
+                        fetchAvailableDonations();
+                    });
+                });
+            }
+
+            async function fetchAvailableDonations() {
+                let query = window.authHelper.supabase
+                    .from('donations')
+                    .select('*')
+                    .eq('status', 'available')
+                    .order('created_at', { ascending: false });
+
+                // NEW: Apply tag filter
+                if (selectedTag) {
+                    query = query.eq('item_tag', selectedTag);
+                }
+
+                const { data, error } = await query;
+                const donationsGrid = document.getElementById('donations-grid');
+                donationsGrid.innerHTML = '';
+
+                if (error || !data || data.length === 0) {
+                    let message = 'No available donations at the moment.';
+                    if (selectedTag) {
+                        message = `No available donations found for "${selectedTag}". Try a different category!`;
+                    }
+                    donationsGrid.innerHTML = `<p id="no-donations-message" class="col-span-full text-center text-gray-600 text-lg">${message}</p>`;
+                    return;
+                }
+                
+                data.forEach(donation => {
+                    const card = createDonationCard(donation);
+                    donationsGrid.appendChild(card);
+                });
+            }
+
+            function createDonationCard(donation) {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-lg flex flex-col overflow-hidden transform hover:-translate-y-2 transition-transform duration-300';
+                const imageUrl = donation.item_image_url ? donation.item_image_url.split(',')[0] : 'https://placehold.co/400x300/FFC0CB/333333?text=No+Image';
+                card.innerHTML = `
+                    <img src="${imageUrl}" class="w-full h-48 object-cover">
+                    <div class="p-4 flex flex-col flex-grow">
+                        <h3 class="text-xl font-bold text-gray-800">${donation.item_name}</h3>
+                        <p class="text-sm text-gray-500 mt-1">Quantity: ${donation.quantity_required}</p>
+                        <div class="flex items-center mt-2 text-sm text-gray-600">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span>${donation.donor_city}, ${donation.donor_state}</span>
+                        </div>
+                        <p class="text-gray-600 mt-2 flex-grow">${donation.description}</p>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <button data-donation-id="${donation.id}" class="request-btn w-full bg-pink-600 text-white font-bold py-2 rounded-lg hover:bg-pink-700">
+                                Request Item
+                            </button>
+                        </div>
+                    </div>
+                `;
+                card.querySelector('.request-btn').addEventListener('click', (e) => {
+                    currentDonationId = e.target.dataset.donationId;
+                    document.getElementById('request-modal').classList.remove('hidden');
+                });
+                return card;
+            }
+
+            async function handleRequestItem() {
+                try {
+                    const { data: existingRequest } = await window.authHelper.supabase
+                        .from('donation_requests')
+                        .select('id')
+                        .eq('donation_id', currentDonationId)
+                        .eq('ngo_id', currentUser.id)
+                        .single();
+                    if (existingRequest) {
+                        alert('You have already requested this item.');
+                        document.getElementById('request-modal').classList.add('hidden');
+                        return;
+                    }
+
+                    const { data: donation } = await window.authHelper.supabase
+                        .from('donations')
+                        .select('donor_id')
+                        .eq('id', currentDonationId)
+                        .single();
+
+                    const { error } = await window.authHelper.supabase
+                        .from('donation_requests')
+                        .insert([{
+                            donation_id: currentDonationId,
+                            ngo_id: currentUser.id,
+                            donor_id: donation.donor_id,
+                            status: 'pending',
+                            request_message: `Request from ${currentNgoProfile.ngo_name} located in ${currentNgoProfile.city}, ${currentNgoProfile.state}`
+                        }]);
+                    if (error) throw error;
+
+                    const { error: updateError } = await window.authHelper.supabase
+                        .from('donations')
+                        .update({ status: 'requested' })
+                        .eq('id', currentDonationId);
+                    if (updateError) throw updateError;
+
+                    document.getElementById('request-modal').classList.add('hidden');
+                    alert('Request sent successfully! The donor will review your request.');
+                    fetchAvailableDonations();
+                } catch (error) {
+                    console.error('Request error:', error);
+                    alert('Error requesting item: ' + error.message);
+                }
+            }
+
+            async function fetchMyRequests() {
+                const { data, error } = await window.authHelper.supabase
+                    .from('donation_requests')
+                    .select(`
+                        *,
+                        donations (
+                            item_name,
+                            quantity_required,
+                            description,
+                            item_image_url,
+                            donor_city,
+                            donor_state,
+                            status
+                        ),
+                        donor_profiles (
+                            first_name,
+                            last_name,
+                            phone_number,
+                            city,
+                            state
+                        )
+                    `)
+                    .eq('ngo_id', currentUser.id)
+                    .order('created_at', { ascending: false });
+                const requestsGrid = document.getElementById('requests-grid');
+                requestsGrid.innerHTML = '';
+
+                if (error || !data || data.length === 0) {
+                    requestsGrid.innerHTML = '<p id="no-requests-message" class="col-span-full text-center text-gray-600 text-lg">You haven\'t requested any items yet.</p>';
+                    return;
+                }
+
+                data.forEach(request => {
+                    const card = createRequestCard(request);
+                    requestsGrid.appendChild(card);
+                });
+            }
+
+            function createRequestCard(request) {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-lg p-5';
+                const donation = request.donations;
+                const donor = request.donor_profiles;
+                const imageUrl = donation.item_image_url ? donation.item_image_url.split(',')[0] : 'https://placehold.co/400x300';
+                
+                let statusHtml = '';
+                let detailsHtml = '';
+                switch(request.status) {
+                    case 'pending':
+                        statusHtml = `
+                            <div class="bg-yellow-100 text-yellow-800 font-bold p-4 rounded-lg text-center">
+                                <i class="fas fa-hourglass-half mr-2"></i>PENDING DONOR APPROVAL
+                            </div>
+                        `;
+                        break;
+                    case 'accepted':
+                        statusHtml = `
+                            <div class="bg-green-100 text-green-800 font-bold p-4 rounded-lg text-center mb-4">
+                                <i class="fas fa-check-circle mr-2"></i>REQUEST ACCEPTED
+                            </div>
+                        `;
+                        detailsHtml = `
+                            <div class="mt-4 p-4 bg-gray-50 rounded-lg border">
+                                <h4 class="font-bold mb-2">Donor Contact Details:</h4>
+                                <p><i class="fas fa-user mr-2"></i> ${donor.first_name} ${donor.last_name}</p>
+                                <p><i class="fas fa-phone mr-2"></i> ${donor.phone_number || 'Not provided'}</p>
+                                <p><i class="fas fa-map-marker-alt mr-2"></i> ${donor.city}, ${donor.state}</p>
+                                <p class="text-sm text-gray-500 mt-2">Please contact the donor to arrange pickup.</p>
+                            </div>
+                        `;
+                        break;
+                    case 'rejected':
+                        statusHtml = `
+                            <div class="bg-red-100 text-red-800 font-bold p-4 rounded-lg text-center">
+                                <i class="fas fa-times-circle mr-2"></i>REQUEST REJECTED
+                            </div>
+                        `;
+                        break;
+                }
+
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row gap-5">
+                        <img src="${imageUrl}" class="w-full md:w-32 h-32 object-cover rounded-lg">
+                        <div class="flex-grow">
+                            <h3 class="text-2xl font-bold">${donation.item_name}</h3>
+                            <p class="text-gray-500">Quantity: ${donation.quantity_required}</p>
+                            <p class="text-gray-600 mt-2">${donation.description}</p>
+                            ${statusHtml}
+                            ${detailsHtml}
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+
+            async function fetchDeliveryTracking() {
+                const { data, error } = await window.authHelper.supabase
+                    .from('delivery_tracking')
+                    .select(`
+                        *,
+                        donations (
+                            item_name,
+                            item_image_url,
+                            quantity_required
+                        ),
+                        donor_profiles (
+                            first_name,
+                            last_name,
+                            phone_number,
+                            city,
+                            state
+                        )
+                    `)
+                    .eq('ngo_id', currentUser.id)
+                    .order('created_at', { ascending: false });
+                const trackingGrid = document.getElementById('tracking-grid');
+                trackingGrid.innerHTML = '';
+
+                if (error || !data || data.length === 0) {
+                    trackingGrid.innerHTML = '<p id="no-tracking-message" class="col-span-full text-center text-gray-600 text-lg">No active deliveries to manage.</p>';
+                    return;
+                }
+
+                const deliveries = data.filter(t => t.status !== 'delivered');
+                if (deliveries.length === 0) {
+                     trackingGrid.innerHTML = '<p id="no-tracking-message" class="col-span-full text-center text-gray-600 text-lg">No active deliveries to manage.</p>';
+                     return;
+                }
+                
+                deliveries.forEach(tracking => {
+                    const card = createTrackingCard(tracking);
+                    trackingGrid.appendChild(card);
+                });
+            }
+
+            function createTrackingCard(tracking) {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-lg p-6';
+                const donation = tracking.donations;
+                const donor = tracking.donor_profiles;
+                const imageUrl = donation.item_image_url ? donation.item_image_url.split(',')[0] : 'https://placehold.co/400x300';
+                
+                let actionButton = '';
+                // Simplify logic to show "Mark as Delivered" only if not already delivered
+                if (tracking.status !== 'delivered') {
+                    actionButton = `
+                        <button onclick="showDeliveryUpdate('${tracking.id}', 'delivered')" 
+                                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                            Mark as Delivered
+                        </button>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <img src="${imageUrl}" class="w-24 h-24 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <h3 class="text-xl font-semibold">${donation.item_name}</h3>
+                                    <p class="text-gray-600">Quantity: ${donation.quantity_required}</p>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium ${getTrackingStatusColor(tracking.status)}">
+                                    ${tracking.status.replace('_', ' ').toUpperCase()}
+                                </span>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p><strong>Tracking ID:</strong> ${tracking.tracking_id}</p>
+                                    <p><strong>Donor:</strong> ${donor.first_name} ${donor.last_name}</p>
+                                    <p><strong>Pickup From:</strong> ${tracking.pickup_address}</p>
+                                </div>
+                                <div>
+                                    <p><strong>Deliver To:</strong> ${currentNgoProfile.address}</p>
+                                    <p><strong>Donor Contact:</strong> ${donor.phone_number}</p>
+                                    ${tracking.actual_pickup_date ? `<p><strong>Picked Up:</strong> ${new Date(tracking.actual_pickup_date).toLocaleDateString()}</p>` : ''}
+                                    ${tracking.actual_delivery_date ? `<p><strong>Delivered:</strong> ${new Date(tracking.actual_delivery_date).toLocaleDateString()}</p>` : ''}
+                                </div>
+                            </div>
+                            
+                            ${actionButton ? `
+                                <div class="mt-4">
+                                    ${actionButton}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+
+            function getTrackingStatusColor(status) {
+                const colors = {
+                    'pickup_pending': 'bg-yellow-100 text-yellow-800',
+                    'picked_up': 'bg-blue-100 text-blue-800',
+                    'in_transit': 'bg-purple-100 text-purple-800',
+                    'delivered': 'bg-green-100 text-green-800'
+                };
+                return colors[status] || 'bg-gray-100 text-gray-800';
+            }
+
+            function setupEventListeners() {
+                document.querySelectorAll(".nav-link").forEach(link => {
+                    link.addEventListener("click", e => {
+                        e.preventDefault();
+                        const viewId = e.currentTarget.id.split("-")[1];
+                        switchView(viewId);
+                    });
+                });
+                document.getElementById("nav-logout").addEventListener("click", async (e) => {
+                    e.preventDefault();
+                    await window.authHelper.logoutUser();
+                });
+                document.getElementById('request-modal-confirm-btn').addEventListener('click', handleRequestItem);
+                document.getElementById('request-modal-cancel-btn').addEventListener('click', () => {
+                    document.getElementById('request-modal').classList.add('hidden');
+                });
+                document.getElementById('delivery-modal-cancel-btn').addEventListener('click', () => {
+                    document.getElementById('delivery-modal').classList.add('hidden');
+                });
+                document.querySelectorAll('#delivery-modal button[data-status]').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const status = e.target.dataset.status;
+                        updateDeliveryStatus(status);
+                    });
+                });
+                document.getElementById('ngo-profile-form').addEventListener('submit', updateNgoProfile);
+            }
+
+            function switchView(viewName) {
+                document.querySelectorAll('main > div').forEach(view => view.classList.add('hidden'));
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('bg-pink-500', 'text-white', 'text-black');
+                    link.classList.add('text-gray-600', 'hover:bg-pink-100');
+                });
+                document.getElementById(`view-${viewName}`).classList.remove('hidden');
+                
+                const activeNav = document.getElementById(`nav-${viewName}`);
+                activeNav.classList.remove('text-gray-600', 'hover:bg-pink-100');
+                activeNav.classList.add('bg-pink-500', 'text-white');
+
+                if (viewName === 'browse') {
+                    fetchAvailableDonations();
+                } else if (viewName === 'requests') {
+                    fetchMyRequests();
+                } else if (viewName === 'tracking') {
+                    fetchDeliveryTracking();
+                } else if (viewName === 'profile') {
+                    loadProfileData();
+                }
+            }
+
+            function loadProfileData() {
+                if (currentNgoProfile) {
+                    document.getElementById('profile-ngo-name').value = currentNgoProfile.ngo_name || '';
+                    document.getElementById('profile-org-type').value = currentNgoProfile.org_type || '';
+                    document.getElementById('profile-reg-number').value = currentNgoProfile.registration_number || '';
+                    document.getElementById('profile-address').value = currentNgoProfile.address || '';
+                    document.getElementById('profile-city').value = currentNgoProfile.city || '';
+                    document.getElementById('profile-state').value = currentNgoProfile.state || '';
+                    document.getElementById('profile-pincode').value = currentNgoProfile.pin_code || '';
+                    document.getElementById('profile-contact-phone').value = currentNgoProfile.contact_phone || '';
+                    document.getElementById('profile-contact-email').value = currentNgoProfile.contact_email || '';
+                    document.getElementById('profile-website').value = currentNgoProfile.website_url || '';
+                }
+            }
+
+            async function updateNgoProfile(e) {
+                e.preventDefault();
+                const updates = {
+                    ngo_name: document.getElementById('profile-ngo-name').value,
+                    org_type: document.getElementById('profile-org-type').value,
+                    registration_number: document.getElementById('profile-reg-number').value,
+                    address: document.getElementById('profile-address').value,
+                    city: document.getElementById('profile-city').value,
+                    state: document.getElementById('profile-state').value,
+                    pin_code: document.getElementById('profile-pincode').value,
+                    contact_phone: document.getElementById('profile-contact-phone').value,
+                    website_url: document.getElementById('profile-website').value,
+                    updated_at: new Date().toISOString()
+                };
+
+                const { error } = await window.authHelper.supabase
+                    .from('ngo_profiles')
+                    .update(updates)
+                    .eq('id', currentUser.id);
+                if (error) {
+                    console.error('Profile update error:', error);
+                    alert('Failed to update profile: ' + error.message);
+                } else {
+                    alert('Profile updated successfully!');
+                    currentNgoProfile = { ...currentNgoProfile, ...updates };
+                    document.getElementById('ngo-name-header').textContent = updates.ngo_name;
+                }
+            }
+
+            window.showDeliveryUpdate = function(trackingId, suggestedStatus) {
+                currentTrackingId = trackingId;
+                const modal = document.getElementById('delivery-modal');
+                const title = document.getElementById('delivery-modal-title');
+                const text = document.getElementById('delivery-modal-text');
+                const statusMessages = {
+                    'delivered': { title: 'Confirm Delivery', text: 'Has the item been delivered to your NGO?' }
+                };
+                
+                title.textContent = statusMessages[suggestedStatus].title;
+                text.textContent = statusMessages[suggestedStatus].text;
+                modal.classList.remove('hidden');
+            };
+
+            async function updateDeliveryStatus(status) {
+                try {
+                    const updateData = {
+                        status: status,
+                        updated_at: new Date().toISOString()
+                    };
+                    if (status === 'delivered') {
+                        updateData.actual_delivery_date = new Date().toISOString();
+                        const { data: tracking } = await window.authHelper.supabase
+                            .from('delivery_tracking')
+                            .select('donation_id, tracking_id')
+                            .eq('id', currentTrackingId)
+                            .single();
+                        if (tracking) {
+                            await window.authHelper.supabase
+                                .from('donations')
+                                .update({ status: 'delivered' })
+                                .eq('id', tracking.donation_id);
+                            alert(`✅ Delivery completed! Tracking ID: ${tracking.tracking_id}`);
+                        }
+                    }
+
+                    const { error } = await window.authHelper.supabase
+                        .from('delivery_tracking')
+                        .update(updateData)
+                        .eq('id', currentTrackingId);
+                    if (error) throw error;
+
+                    document.getElementById('delivery-modal').classList.add('hidden');
+                    fetchDeliveryTracking();
+                } catch (error) {
+                    alert('Failed to update delivery status: ' + error.message);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

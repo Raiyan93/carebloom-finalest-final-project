@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Registration - CareBloom (Mumbai)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes riseUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-rise { animation: riseUp 0.8s ease-out forwards; }
+        .valid { color: #16a34a; }
+        .invalid { color: #dc2626; }
+        
+        input[type="file"] { display: block; width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; background-color: #ffffff; font-size: 0.875rem; color: #4b5563; }
+        input[type="file"]::file-selector-button { font-weight: 600; padding: 0.5rem 1rem; border-radius: 0.375rem; border: none; background-color: #fce7f3; color: #db2777; cursor: pointer; transition: background-color 0.2s; margin-right: 1rem; }
+        input[type="file"]::file-selector-button:hover { background-color: #fbcfe8; }
+        
+        .error-message { 
+            color: #ef4444; font-size: 0.875rem; 
+            margin-top: 0.25rem; 
+        }
+        .error-border { 
+            border-color: #ef4444;
+        }
+        .success-border { 
+            border-color: #10b981;
+        }
+    </style>
+</head>
+<body class="bg-pink-50">
+    <div class="min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white shadow-xl w-full max-w-2xl p-8 rounded-2xl animate-rise">
+            <div class="text-center mb-8">
+                <div class="inline-block bg-pink-100 p-3 rounded-full mb-4">
+                    <svg class="w-10 h-10 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0v-4a2 2 0 012-2h6a2 2 0 012 2v4m-6 0h-2"></path></svg>
+                </div>
+                <h1 class="text-3xl font-bold text-pink-600">Register Your Mumbai-Based NGO</h1>
+                <p class="text-gray-500 mt-2">Join CareBloom and make a difference with us!</p>
+            </div>
+
+            <form id="ngo-registration-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="ngo-name" class="block text-sm font-medium text-gray-700 mb-1">NGO Name *</label>
+                        <input type="text" id="ngo-name" required placeholder="e.g., Hope Foundation" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                        <div id="ngo-name-error" class="error-message hidden"></div>
+                    </div>
+                    <div>
+                        <label for="org-type" class="block text-sm font-medium text-gray-700 mb-1">Organization Type *</label>
+                        <select id="org-type" required class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition bg-white">
+                            <option value="">Select Type</option>
+                            <option>Trust</option>
+                            <option>Society</option>
+                            <option>Section 8 Company</option>
+                        </select>
+                        <div id="org-type-error" class="error-message hidden"></div>
+                    </div>
+                </div>
+
+                <div class="bg-pink-50 p-6 rounded-lg border border-pink-200">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Verification Details</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <label for="darpan-id" class="block text-sm font-medium text-gray-700 mb-1">NGO Darpan Unique ID *</label>
+                            <input type="text" id="darpan-id" required placeholder="Enter ID to verify against our approved list" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                            <div id="darpan-feedback" class="text-sm mt-1 h-5"></div> 
+                            <div id="darpan-id-error" class="error-message hidden"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="reg-number" class="block text-sm font-medium text-gray-700 mb-1">Registration Number *</label>
+                                <input type="text" id="reg-number" required placeholder="As per certificate" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                                <div id="reg-number-error" class="error-message hidden"></div>
+                            </div>
+                            <div>
+                                <label for="reg-date" class="block text-sm font-medium text-gray-700 mb-1">Date of Registration</label>
+                                <input type="date" id="reg-date" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition text-gray-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Registered Address in Mumbai *</label>
+                    <input type="text" id="address" required placeholder="Enter your full registered address" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                    <div id="address-error" class="error-message hidden"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="city" class="block text-sm font-medium text-gray-700 mb-1">City *</label>
+                        <input type="text" id="city" value="Mumbai" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500">
+                    </div>
+                    <div>
+                        <label for="state" class="block text-sm font-medium text-gray-700 mb-1">State *</label>
+                        <input type="text" id="state" value="Maharashtra" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-500">
+                    </div>
+                    <div>
+                        <label for="pincode" class="block text-sm font-medium text-gray-700 mb-1">Pincode *</label>
+                        <input type="text" id="pincode" required placeholder="6-digit Mumbai Pincode" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                        <div id="pincode-error" class="error-message hidden"></div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="contact-number" class="block text-sm font-medium text-gray-700 mb-1">Contact Number *</label>
+                        <input type="tel" id="contact-number" required pattern="[6-9]\d{9}" maxlength="10" placeholder="10-digit mobile number" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                        <div id="contact-number-error" class="error-message hidden"></div>
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                        <input type="email" id="email" required placeholder="you@example.com" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                        <div id="email-error" class="error-message hidden"></div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="website" class="block text-sm font-medium text-gray-700 mb-1">Official Website</label>
+                    <input type="url" id="website" placeholder="https://example.com" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                </div>
+
+                <div class="bg-pink-50 p-6 rounded-lg border border-pink-200">
+                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Verification Documents</h3>
+                     <div class="space-y-6">
+                         <div>
+                            <label for="reg-certificate" class="block text-sm font-medium text-gray-700 mb-1">Registration Certificate *</label>
+                            <input type="file" id="reg-certificate" required accept=".pdf,.png,.jpg,.jpeg">
+                            <div id="reg-certificate-error" class="error-message hidden"></div>
+                        </div>
+                        <div>
+                            <label for="pan-card" class="block text-sm font-medium text-gray-700 mb-1">Organization's PAN Card *</label>
+                            <input type="file" id="pan-card" required accept=".pdf,.png,.jpg,.jpeg">
+                            <div id="pan-card-error" class="error-message hidden"></div>
+                        </div>
+                        <div>
+                            <label for="g80-certificate" class="block text-sm font-medium text-gray-700 mb-1">80G Certificate (Recommended)</label>
+                            <input type="file" id="g80-certificate" accept=".pdf,.png,.jpg,.jpeg">
+                        </div>
+                     </div>
+                </div>
+                
+                <div class="relative w-full flex items-center">
+                    <div id="password-tooltip" class="hidden absolute right-full mr-3 w-[280px] bg-pink-100 text-gray-800 text-sm rounded-md shadow-lg p-3 border border-pink-300 z-10">
+                        <div class="relative">
+                            <p class="font-semibold mb-1">Password must include:</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li id="length" class="invalid">At least 8 characters</li>
+                                <li id="uppercase" class="invalid">One uppercase letter</li>
+                                <li id="lowercase" class="invalid">One lowercase letter</li>
+                                <li id="number" class="invalid">One number</li>
+                                <li id="special" class="invalid">One special character (!@#$%^&*)</li>
+                                <li id="spaces" class="invalid">No spaces</li>
+                            </ul>
+                            <div class="absolute top-3 -right-2 w-0 h-0 border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l-pink-100"></div>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Create Account Password *</label>
+                        <input type="password" id="password" required minlength="8" placeholder="Create a strong password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 transition">
+                        <div id="password-error" class="error-message hidden"></div>
+                    </div>
+                </div>
+                
+                <div class="!mt-8 text-center text-sm text-gray-600 bg-yellow-50 border border-yellow-200 p-3 rounded-lg">
+                    <p><strong>Please Note:</strong> Your profile will be reviewed after submission and will become visible only after successful verification.</p>
+                </div>
+                
+                <div>
+                    <button type="submit" class="w-full text-white bg-pink-600 hover:bg-pink-700 rounded-lg py-3 px-4 font-bold text-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 disabled:bg-gray-400 disabled:cursor-not-allowed">Submit for Verification</button>
+                </div>
+            </form>
+
+            <div class="text-center mt-6">
+                <p class="text-gray-600">Already have an account? <a href="loginsignup.html" class="font-semibold text-pink-600 hover:underline">Log In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="error-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl shadow-xl text-center p-8 max-w-sm animate-rise">
+            <div class="mx-auto bg-red-100 rounded-full h-20 w-20 flex items-center justify-center mb-4">
+                <svg class="h-12 w-12 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Verification Failed</h2>
+            <p class="text-gray-600 mb-6">The Darpan ID you entered is not in our pre-approved list. Please check the ID and try again.</p>
+            <button id="retry-btn" class="w-full bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-500 transition-colors">Retry Again</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./auth.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('ngo-registration-form');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const darpanInput = document.getElementById('darpan-id');
+       
+        submitBtn.disabled = true;
+
+        function setupLiveValidations() {
+            const password = document.getElementById("password");
+            const tooltip = document.getElementById("password-tooltip");
+            const requirements = {
+                length: /.{8,}/, uppercase: /[A-Z]/, lowercase: /[a-z]/,
+                number: /[0-9]/, special: /[!@#$%^&*(),.?":{}|<>]/, spaces: /^\S*$/,
+            };
+            password.addEventListener("focus", () => { tooltip.classList.remove("hidden"); });
+            password.addEventListener("blur", () => { if (password.value === "") tooltip.classList.add("hidden"); });
+            password.addEventListener("input", () => {
+                Object.keys(requirements).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.className = requirements[key].test(password.value) ? "valid" : "invalid";
+                });
+            });
+
+            document.getElementById('pincode').addEventListener('input', function(e) {
+                const value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 6) {
+                    e.target.value = value;
+                } else {
+                    e.target.value = value.slice(0, 6);
+                }
+                
+                if (value && value.length !== 6) {
+                    showError('pincode', 'Pincode must be 6 digits');
+                } else {
+                    clearError('pincode');
+                    if (value.length === 6) {
+                        e.target.classList.add('success-border');
+                    } else {
+                        e.target.classList.remove('success-border');
+                    }
+                }
+            });
+            document.getElementById('contact-number').addEventListener('input', function(e) {
+                const value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 10) {
+                    e.target.value = value;
+                } else {
+                    e.target.value = value.slice(0, 10);
+                }
+                
+                if (value && !/^[6-9]\d{9}$/.test(value)) {
+                    showError('contact-number', 'Please enter a valid 10-digit Indian phone number');
+                } else {
+                    clearError('contact-number');
+                    if (value.length === 10) {
+                        e.target.classList.add('success-border');
+                    } else {
+                        e.target.classList.remove('success-border');
+                    }
+                }
+            });
+            document.getElementById('email').addEventListener('blur', function(e) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (e.target.value && !emailRegex.test(e.target.value)) {
+                    showError('email', 'Please enter a valid email address');
+                } else {
+                    clearError('email');
+                    if (emailRegex.test(e.target.value)) {
+                        e.target.classList.add('success-border');
+                    } else {
+                        e.target.classList.remove('success-border');
+                    }
+                }
+            });
+        }
+
+        function setupDarpanIdVerification() {
+            const feedbackEl = document.getElementById('darpan-feedback');
+            darpanInput.addEventListener('blur', async () => {
+                const darpanId = darpanInput.value.trim();
+                feedbackEl.textContent = '';
+                
+                if (!darpanId) {
+                    submitBtn.disabled = true;
+                    return;
+                }
+
+                feedbackEl.textContent = 'Verifying...';
+                feedbackEl.className = 'text-sm mt-1 h-5 text-gray-500';
+                submitBtn.disabled = true;
+
+                try {
+                    const isApproved = await window.authHelper.verifyDarpanId(darpanId);
+                    
+                    if (isApproved) {
+                        feedbackEl.textContent = '✅ Darpan ID Verified!';
+                        feedbackEl.className = 'text-sm mt-1 h-5 text-green-600';
+                        submitBtn.disabled = false;
+                    } else {
+                        feedbackEl.textContent = '';
+                        showErrorModal();
+                    }
+                } catch (err) {
+                    console.error('Error verifying Darpan ID:', err);
+                    feedbackEl.textContent = '';
+                    showErrorModal("Could not connect to the verification service.");
+                }
+            });
+        }
+
+        function validateForm(ngoData, files) {
+            let isValid = true;
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.classList.add('hidden');
+                el.textContent = '';
+            });
+            document.querySelectorAll('.error-border').forEach(el => {
+                el.classList.remove('error-border');
+            });
+            if (!ngoData.ngoName.trim()) {
+                showError('ngo-name', 'NGO name is required');
+                isValid = false;
+            }
+
+            if (!ngoData.orgType) {
+                showError('org-type', 'Organization type is required');
+                isValid = false;
+            }
+
+            if (!ngoData.darpanId.trim()) {
+                showError('darpan-id', 'Darpan ID is required');
+                isValid = false;
+            }
+
+            if (!ngoData.regNumber.trim()) {
+                showError('reg-number', 'Registration number is required');
+                isValid = false;
+            }
+
+            if (!ngoData.address.trim()) {
+                showError('address', 'Address is required');
+                isValid = false;
+            }
+
+            if (!ngoData.pincode) {
+                showError('pincode', 'Pincode is required');
+                isValid = false;
+            } else if (ngoData.pincode.length !== 6) {
+                showError('pincode', 'Pincode must be 6 digits');
+                isValid = false;
+            }
+
+            if (!ngoData.contactNumber) {
+                showError('contact-number', 'Contact number is required');
+                isValid = false;
+            } else if (!/^[6-9]\d{9}$/.test(ngoData.contactNumber)) {
+                showError('contact-number', 'Please enter a valid 10-digit Indian phone number');
+                isValid = false;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!ngoData.email.trim()) {
+                showError('email', 'Email is required');
+                isValid = false;
+            } else if (!emailRegex.test(ngoData.email)) {
+                showError('email', 'Please enter a valid email address');
+                isValid = false;
+            }
+
+            if (!ngoData.password) {
+                showError('password', 'Password is required');
+                isValid = false;
+            } else {
+                const passwordErrors = [];
+                if (!/.{8,}/.test(ngoData.password)) {
+                    passwordErrors.push('at least 8 characters');
+                }
+                if (!/[A-Z]/.test(ngoData.password)) {
+                    passwordErrors.push('one uppercase letter');
+                }
+                if (!/[a-z]/.test(ngoData.password)) {
+                    passwordErrors.push('one lowercase letter');
+                }
+                if (!/[0-9]/.test(ngoData.password)) {
+                    passwordErrors.push('one number');
+                }
+                if (!/[!@#$%^&*(),.?":{}|<>]/.test(ngoData.password)) {
+                    passwordErrors.push('one special character');
+                }
+                if (!/^\S*$/.test(ngoData.password)) {
+                    passwordErrors.push('no spaces');
+                }
+                
+                if (passwordErrors.length > 0) {
+                    showError('password', 'Password must contain: ' + passwordErrors.join(', '));
+                    isValid = false;
+                }
+            }
+
+            if (!files.regCertificate) {
+                showError('reg-certificate', 'Registration certificate is required');
+                isValid = false;
+            }
+
+            if (!files.panCard) {
+                showError('pan-card', 'PAN card is required');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function showError(fieldId, message) {
+            const errorElement = document.getElementById(`${fieldId}-error`);
+            const inputElement = document.getElementById(fieldId);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.classList.remove('hidden');
+            }
+            
+            if (inputElement) {
+                inputElement.classList.add('error-border');
+            }
+        }
+
+        function clearError(fieldId) {
+            const errorElement = document.getElementById(`${fieldId}-error`);
+            const inputElement = document.getElementById(fieldId);
+            
+            if (errorElement) {
+                errorElement.classList.add('hidden');
+            }
+            
+            if (inputElement) {
+                inputElement.classList.remove('error-border');
+            }
+        }
+
+        function showErrorModal(message) {
+            const modal = document.getElementById('error-modal');
+            const defaultMessage = "The Darpan ID you entered is not in our pre-approved list. Please check the ID and try again.";
+            modal.querySelector('p').textContent = message || defaultMessage;
+            modal.classList.remove('hidden');
+        }
+        
+        document.getElementById('retry-btn').addEventListener('click', () => {
+            document.getElementById('error-modal').classList.add('hidden');
+            darpanInput.value = '';
+            darpanInput.focus();
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const ngoData = {
+                    ngoName: document.getElementById('ngo-name').value, 
+                    orgType: document.getElementById('org-type').value,
+                    regNumber: document.getElementById('reg-number').value, 
+                    regDate: document.getElementById('reg-date').value,
+                    address: document.getElementById('address').value, 
+                    city: 'Mumbai', 
+                    state: 'Maharashtra',
+                    pincode: document.getElementById('pincode').value,
+                    contactNumber: document.getElementById('contact-number').value, 
+                    email: document.getElementById('email').value,
+                    website: document.getElementById('website').value, 
+                    password: document.getElementById('password').value,
+                    darpanId: darpanInput.value
+                };
+                
+                const filesToUpload = {
+                    regCertificate: document.getElementById('reg-certificate').files[0],
+                    panCard: document.getElementById('pan-card').files[0],
+                    g80Certificate: document.getElementById('g80-certificate').files[0]
+                };
+
+                if (!validateForm(ngoData, filesToUpload)) {
+                    throw new Error('Please fix the validation errors above');
+                }
+                
+                if (!filesToUpload.regCertificate || !filesToUpload.panCard) { 
+                    throw new Error('Required documents are missing.');
+                }
+                
+                await window.authHelper.signupNGO(ngoData, filesToUpload);
+
+            } catch (error) {
+                console.error('💥 NGO Registration failed:', error);
+                alert('Registration failed: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+        setupLiveValidations();
+        setupDarpanIdVerification();
+    });
+    // Add this to NGORegistration.html
+document.addEventListener('DOMContentLoaded', () => {
+    // ========== FIX 1: EMAIL HANDLING ==========
+    const urlParams = new URLSearchParams(window.location.search);
+    const reapply = urlParams.get('reapply');
+    const email = urlParams.get('email');
+    const isReapplication = urlParams.get('isReapplication') === 'true';
+    
+    if (reapply && email) {
+        console.log('🔄 Detected reapplication for email:', email);
+        
+        const emailInput = document.getElementById('email');
+        if (emailInput) {
+            emailInput.value = email;
+            // DON'T make it read-only - allow editing for corrections!
+            emailInput.classList.add('bg-yellow-50', 'border-yellow-300');
+            
+            const emailContainer = emailInput.parentElement;
+            const infoText = document.createElement('p');
+            infoText.className = 'text-sm text-yellow-600 mt-1';
+            infoText.textContent = 'You can change this email if needed for corrections';
+            emailContainer.appendChild(infoText);
+        }
+    }
+});
+    </script>
+</body>
+</html>

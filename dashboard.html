@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Donor Dashboard - CareBloom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+      .otp-input {
+        width: 50px;
+        height: 50px; text-align: center; font-size: 1.25rem;
+        border: 2px solid #d1d5db; border-radius: 8px; margin: 0 5px; transition: border-color 0.2s;
+      }
+      .otp-input:focus {
+        outline: none; border-color: #ec4899;
+        box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+      }
+      .progress-bar {
+        background-color: #e5e7eb;
+        border-radius: 9999px; height: 0.75rem; overflow: hidden;
+      }
+      .progress-fill {
+        background-color: #ec4899;
+        height: 100%; transition: width 0.5s ease-in-out;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-r from-pink-100 via-rose-100 to-orange-100 min-h-screen">
+    <div class="flex min-h-screen">
+      <aside class="w-64 flex-shrink-0 bg-amber-50 shadow-lg flex flex-col">
+        <div class="p-6 text-2xl font-bold text-center border-b">🌱Care<span class="text-pink-600">Bloom</span></div>
+        <nav class="flex-grow p-4 space-y-2">
+            <a href="#" id="nav-dashboard" class="nav-link flex items-center px-4 py-3 font-semibold text-white bg-pink-500 rounded-lg">
+                <i class="fas fa-tachometer-alt w-6 text-center mr-3"></i>Dashboard
+            </a>
+            <a href="#" id="nav-donations" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                <i class="fas fa-gift w-6 text-center mr-3"></i>My Donations
+            </a>
+            <a href="#" id="nav-requests" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                <i class="fas fa-handshake w-6 text-center mr-3"></i>Donation Requests
+            </a>
+            <a href="#" id="nav-tracking" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                <i class="fas fa-shipping-fast w-6 text-center mr-3"></i>Delivery Process
+            </a>
+            <a href="#" id="nav-profile" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                <i class="fas fa-user w-6 text-center mr-3"></i>Profile
+            </a>
+            <a href="#" id="nav-redemption" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                <i class="fas fa-star w-6 text-center mr-3"></i>Redemption
+            </a>
+            <a href="#" id="nav-feedback" class="nav-link flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                <i class="fas fa-comment-dots w-6 text-center mr-3"></i>Feedback
+            </a>
+        </nav>
+        <div class="p-4 border-t">
+            <a href="#" id="nav-logout" class="flex items-center px-4 py-3 text-gray-600 hover:bg-pink-100 rounded-lg">
+                <i class="fas fa-sign-out-alt w-6 text-center mr-3"></i>Logout
+            </a>
+        </div>
+      </aside>
+
+      <main class="flex-1 p-6">
+        <div id="view-dashboard">
+          <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-6 mb-6">
+            <h1 class="font-bold text-black text-3xl">Welcome, <span id="user-name">User</span>! 🌷</h1>
+            <p class="mt-1.5 text-xl font-normal text-black">
+              Your Garden is Flourishing!
+              You have helped <span id="ngo-count">0</span> NGOs and Touched <span id="lives-touched">0</span> Lives! 🎗️
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+              <div class="text-3xl font-bold text-pink-600 mb-2" id="total-donations">0</div>
+              <div class="text-gray-600">Total Donations</div>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+              <div class="text-3xl font-bold text-green-600 mb-2" id="pending-requests">0</div>
+              <div class="text-gray-600">Pending Requests</div>
+            </div>
+            <div class="bg-white rounded-xl shadow-lg p-6 text-center">
+              <div class="text-3xl font-bold text-blue-600 mb-2" id="active-deliveries">0</div>
+              <div class="text-gray-600">Active Deliveries</div>
+            </div>
+          </div>
+          <section class="donation-form bg-amber-50 rounded-2xl shadow-xl p-8">
+            <h2 class="text-2xl text-black font-bold mb-6">Plant a New Seed (Make a new donation) 🌱</h2>
+            <form id="donation-form" class="space-y-6">
+              <div>
+                <label for="item-name" class="block text-xl text-black font-medium mb-2">Item Name</label>
+                <input id="item-name" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="e.g., Winter Jacket">
+              </div>
+              <div>
+                <label for="quantity-required" class="block text-xl text-black font-medium mb-2">Quantity</label>
+                <input id="quantity-required" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="e.g., 5 jackets">
+              </div>
+              <div>
+                <label for="item-images" class="block text-xl text-black font-medium mb-2">Add Photos</label>
+                <div class="image-upload-area relative flex flex-col justify-center items-center p-8 border-2 border-dashed border-pink-500 rounded-lg cursor-pointer bg-pink-50 hover:bg-pink-100 transition-colors duration-200 min-h-[200px]">
+                  <input type="file" id="item-images" accept="image/*" multiple class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                  <div class="text-center">
+                    <i class="fa-solid fa-camera text-4xl text-pink-600 mb-2"></i>
+                    <p class="text-gray-700">Drag & Drop or click to browse</p>
+                    <p class="text-sm text-gray-500 mt-1">Max file size: 5MB</p>
+                  </div>
+                  <div id="image-preview-container" class="flex flex-wrap gap-4 mt-4 justify-center"></div>
+                </div>
+              </div>
+              <div>
+                <label for="item-description" class="block text-xl text-black font-medium mb-2">Item Description</label>
+                <textarea id="item-description" rows="4" required class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-pink-400" placeholder="Describe the item's condition, size, etc."></textarea>
+              </div>
+              <div>
+                <label class="block text-xl text-black font-medium mb-2">Select Tag</label>
+                <div class="flex flex-wrap gap-2" id="tag-buttons">
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Books</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Clothes</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Toys</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Utensils</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Electronics</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Small furniture</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Sports Equipment</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Bedding & Blankets</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Towels</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Baby Gear (strollers, car seats)</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Feminine Hygiene Products</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">First-Aid Supplies</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Medical Aids (Wheelchairs, Crutches)</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Tools & Hardware</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Pet Supplies</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Cleaning Supplies</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Home Appliances (Small)</button>
+                    <button type="button" class="tag-btn bg-white text-pink-600 border border-pink-300 font-medium rounded-2xl px-4 py-2 hover:bg-pink-500 hover:text-white transition-colors">Others</button>
+                </div>
+                <input type="hidden" id="selected-tag" />
+              </div>
+              <button id="donate-item-btn" type="button" class="w-full bg-pink-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors">Donate Item</button>
+            </form>
+          </section>
+        </div>
+
+        <div id="view-donations" class="hidden">
+          <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
+            <h1 class="font-bold text-black text-3xl mb-6">My Donations 🎁</h1>
+            <div id="donations-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+          </div>
+        </div>
+
+        <div id="view-requests" class="hidden">
+          <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
+            <h1 class="font-bold text-black text-3xl mb-6">Donation Requests 🤝</h1>
+            <div id="requests-container" class="space-y-6"></div>
+          </div>
+        </div>
+
+        <div id="view-tracking" class="hidden">
+            <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
+                <h1 class="font-bold text-black text-3xl mb-6">Delivery Process 🚚</h1>
+                <div id="tracking-container" class="space-y-6">
+                    <p class="text-center text-gray-500">Loading delivery process...</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-profile" class="hidden">
+          <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
+            <div class="flex justify-between items-start mb-6">
+                <h1 class="font-bold text-black text-3xl">My Profile 👤</h1>
+                <div id="profile-badges" class="flex items-center gap-3"></div>
+            </div>
+            <form id="profile-form" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="profile-first-name" class="block text-xl font-medium mb-2">First Name</label>
+                        <input id="profile-first-name" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
+                    </div>
+                    <div>
+                        <label for="profile-last-name" class="block text-xl font-medium mb-2">Last Name</label>
+                        <input id="profile-last-name" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
+                    </div>
+                </div>
+                <div>
+                    <label for="profile-email" class="block text-xl font-medium mb-2">Email</label>
+                    <input id="profile-email" type="email" disabled class="w-full px-4 py-2 rounded-lg bg-gray-100 cursor-not-allowed">
+                </div>
+                <div>
+                    <label for="profile-phone-number" class="block text-xl font-medium mb-2">Phone Number</label>
+                    <input id="profile-phone-number" type="tel" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
+                </div>
+                <div>
+                    <label for="profile-age" class="block text-xl font-medium mb-2">Age</label>
+                    <input id="profile-age" type="number" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
+                </div>
+                <div>
+                    <label for="profile-pin-code" class="block text-xl font-medium mb-2">Pincode</label>
+                    <input id="profile-pin-code" type="text" required class="w-full px-4 py-2 rounded-lg border border-gray-300">
+                </div>
+                <div>
+                    <label for="profile-address" class="block text-xl font-medium mb-2">Full Address</label>
+                    <textarea id="profile-address" rows="3" required class="w-full px-4 py-2 rounded-lg border border-gray-300"></textarea>
+                </div>
+                <button id="update-profile-btn" type="submit" class="w-full bg-pink-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-700">
+                    Update Profile
+                </button>
+            </form>
+          </div>
+        </div>
+
+        <div id="view-redemption" class="hidden">
+            <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h1 class="font-bold text-black text-3xl">Redeem Your Rewards ⭐</h1>
+                    <div id="redemption-badges" class="flex items-center gap-3"></div>
+                </div>
+                <div id="redemption-content"></div>
+            </div>
+        </div>
+
+        <div id="view-feedback" class="hidden">
+            <div class="bg-amber-50 rounded-2xl shadow-xl w-full p-8">
+                <h1 class="font-bold text-black text-3xl mb-6">Share Your Feedback 💬</h1>
+                <form id="feedback-form">
+                    <label for="feedback-text" class="block text-lg font-medium mb-2">How can we improve?</label>
+                    <textarea id="feedback-text" rows="6" class="w-full p-4 border rounded-lg" placeholder="Type your feedback here..."></textarea>
+                    <button type="submit" class="mt-4 w-full bg-pink-500 text-white font-bold py-3 rounded-lg hover:bg-pink-700">Submit Feedback</button>
+                </form>
+            </div>
+        </div>
+      </main>
+    </div>
+
+    <div id="confirmation-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+      <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center">
+        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-pink-100 mb-4">
+          <i class="fas fa-hand-holding-heart text-pink-600 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900">Confirm Donation</h3>
+        <p class="mt-2 text-sm text-gray-500">Are you sure you want to list this item for donation?</p>
+        <div class="mt-6 flex justify-center gap-4">
+          <button id="confirm-donate-btn" type="button" class="bg-pink-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-pink-700">Yes, Donate</button>
+          <button id="cancel-donate-btn" type="button" class="bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300">No, Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="success-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+      <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center">
+        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+          <i class="fas fa-check text-green-600 text-2xl"></i>
+        </div>
+        <h3 class="text-lg font-medium text-gray-900">Success!</h3>
+        <p class="mt-2 text-sm text-gray-500">Item donated successfully!</p>
+        <div class="mt-6">
+          <button id="success-ok-btn" type="button" class="w-full bg-pink-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-pink-700">Okay</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="request-decision-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-50">
+      <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4" id="request-modal-title">Donation Request</h3>
+        <div id="request-modal-content"></div>
+        <div class="mt-6 flex justify-center gap-4">
+          <button id="accept-request-btn" class="bg-green-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-green-700">Accept</button>
+          <button id="reject-request-btn" class="bg-red-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-700">Reject</button>
+          <button id="cancel-request-btn" class="bg-gray-200 text-gray-800 font-bold py-2 px-6 rounded-lg hover:bg-gray-300">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const session = await window.authHelper.checkAuth();
+            if (!session) { 
+                window.location.href = 'LoginSignUp.html';
+                return;
+            }
+            
+            const { data: donorProfile, error } = await window.authHelper.supabase
+                .from('donor_profiles')
+                .select('id, first_name')
+                .eq('id', session.user.id)
+                .single();
+            if (error || !donorProfile) { 
+                window.location.href = 'CreateProfile.html';
+                return;
+            }
+            
+            let currentUser = session.user;
+            let fileStore = new DataTransfer();
+            let currentRequestId = null;
+
+            await loadUserData();
+            initializeEventListeners();
+            
+            function switchView(viewName) {
+                document.querySelectorAll('main > div[id^="view-"]').forEach(view => view.classList.add('hidden'));
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('bg-pink-500', 'text-white');
+                    link.classList.add('text-gray-600', 'hover:bg-pink-100');
+                });
+                document.getElementById(`view-${viewName}`).classList.remove('hidden');
+                const activeNav = document.getElementById(`nav-${viewName}`);
+                activeNav.classList.remove('text-gray-600', 'hover:bg-pink-100');
+                activeNav.classList.add('bg-pink-500', 'text-white');
+
+                if (viewName === 'donations') loadDonations();
+                else if (viewName === 'requests') loadDonationRequests();
+                else if (viewName === 'tracking') loadDeliveryProcess();
+                else if (viewName === 'profile') loadProfileData();
+                else if (viewName === 'redemption') loadRedemptionData();
+                else if (viewName === 'feedback') loadFeedbackData();
+            }
+
+            async function loadUserData() {
+                const { data: profile } = await window.authHelper.supabase
+                    .from('donor_profiles')
+                    .select('*')
+                    .eq('id', currentUser.id)
+                    .single();
+                if (profile) {
+                    document.getElementById('user-name').textContent = profile.first_name;
+                    await updateDashboardStats();
+                }
+            }
+
+            async function updateDashboardStats() {
+                try {
+                    const { count: totalCount } = await window.authHelper.supabase
+                        .from('donations')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('donor_id', currentUser.id);
+                    document.getElementById('total-donations').textContent = totalCount || 0;
+
+                    const { data: deliveredDonations } = await window.authHelper.supabase
+                        .from('donations')
+                        .select('ngo_id')
+                        .eq('donor_id', currentUser.id)
+                        .eq('status', 'delivered')
+                        .not('ngo_id', 'is', null);
+                    const uniqueNGOs = new Set(deliveredDonations?.map(d => d.ngo_id) || []);
+                    document.getElementById('ngo-count').textContent = uniqueNGOs.size;
+                    document.getElementById('lives-touched').textContent = (deliveredDonations?.length || 0) * 5;
+                    const { count: pendingCount } = await window.authHelper.supabase
+                        .from('donation_requests')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('donor_id', currentUser.id)
+                        .eq('status', 'pending');
+                    document.getElementById('pending-requests').textContent = pendingCount || 0;
+                    const { count: activeDeliveries } = await window.authHelper.supabase
+                        .from('delivery_tracking')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('donor_id', currentUser.id)
+                        .in('status', ['pickup_pending', 'picked_up', 'in_transit']);
+                    document.getElementById('active-deliveries').textContent = activeDeliveries || 0;
+                } catch (error) {
+                    console.error('Error updating dashboard stats:', error);
+                }
+            }
+
+            function initializeEventListeners() {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        switchView(e.currentTarget.id.replace('nav-', ''));
+                    });
+                });
+                document.getElementById('nav-logout').addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    await window.authHelper.logoutUser();
+                });
+                initializeImageUpload();
+                document.getElementById('donate-item-btn').addEventListener('click', () => {
+                    if (validateDonationForm()) {
+                        document.getElementById('confirmation-modal').classList.remove('hidden');
+                    }
+                });
+                document.getElementById('confirm-donate-btn').addEventListener('click', submitDonation);
+                document.getElementById('cancel-donate-btn').addEventListener('click', () => {
+                    document.getElementById('confirmation-modal').classList.add('hidden');
+                });
+                document.getElementById('success-ok-btn').addEventListener('click', () => {
+                    document.getElementById('success-modal').classList.add('hidden');
+                    document.getElementById('donation-form').reset();
+                    document.getElementById('image-preview-container').innerHTML = '';
+                    fileStore = new DataTransfer();
+                    document.querySelectorAll('.tag-btn').forEach(btn => {
+                        btn.classList.remove('bg-pink-500', 'text-white');
+                        btn.classList.add('bg-white', 'text-pink-600');
+                    });
+                    document.getElementById('selected-tag').value = '';
+                });
+                document.getElementById('accept-request-btn').addEventListener('click', () => handleRequestDecision('accepted'));
+                document.getElementById('reject-request-btn').addEventListener('click', () => handleRequestDecision('rejected'));
+                document.getElementById('cancel-request-btn').addEventListener('click', () => {
+                    document.getElementById('request-decision-modal').classList.add('hidden');
+                });
+                // FIXED TAG SELECTION
+                let tagButtons = document.querySelectorAll(".tag-btn");
+                let selectedTagBtn = null;
+                tagButtons.forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        if (selectedTagBtn === btn) {
+                            btn.classList.remove("bg-pink-500", "text-white");
+                            btn.classList.add("bg-white", "text-pink-600");
+                            selectedTagBtn = null;
+                            document.getElementById("selected-tag").value = "";
+                        } 
+                        else {
+                            tagButtons.forEach(b => {
+                                b.classList.remove("bg-pink-500", "text-white");
+                                b.classList.add("bg-white", "text-pink-600");
+                            });
+                            btn.classList.remove("bg-white", "text-pink-600");
+                            btn.classList.add("bg-pink-500", "text-white");
+                            selectedTagBtn = btn;
+                            document.getElementById("selected-tag").value = btn.textContent.trim();
+                        }
+                    });
+                });
+                document.getElementById('profile-form').addEventListener('submit', updateProfile);
+                document.getElementById('feedback-form').addEventListener('submit', handleFeedbackSubmit);
+            }
+
+            function initializeImageUpload() {
+                const fileInput = document.getElementById('item-images');
+                const previewContainer = document.getElementById('image-preview-container');
+                
+                fileInput.addEventListener('change', (event) => {
+                    fileStore = new DataTransfer();
+                    for (const file of event.target.files) {
+                        fileStore.items.add(file);
+                    }
+                    renderPreviews();
+                });
+                
+                function renderPreviews() {
+                    previewContainer.innerHTML = "";
+                    for (let i = 0; i < fileStore.files.length; i++) {
+                        const file = fileStore.files[i];
+                        if (!file.type.startsWith("image/")) continue;
+                        
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const wrapper = document.createElement("div");
+                            wrapper.className = "relative w-24 h-24";
+                            wrapper.innerHTML = `
+                                <img src="${e.target.result}" class="w-full h-full object-cover rounded-lg border-2">
+                                <button type="button" onclick="removeFile(${i})" class="absolute top-0 right-0 -m-2 w-6 h-6 bg-red-500 text-white rounded-full">&times;</button>
+                            `;
+                            previewContainer.appendChild(wrapper);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                }
+
+                window.removeFile = (index) => {
+                    const newFiles = new DataTransfer();
+                    for (let i = 0; i < fileStore.files.length; i++) {
+                        if (i !== index) newFiles.items.add(fileStore.files[i]);
+                    }
+                    fileStore = newFiles;
+                    fileInput.files = newFiles.files;
+                    renderPreviews();
+                }
+            }
+
+            function validateDonationForm() {
+                const form = document.getElementById('donation-form');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return false;
+                }
+                if (!document.getElementById('selected-tag').value) {
+                    alert('Please select a tag.');
+                    return false;
+                }
+                return true;
+            }
+
+            async function submitDonation() {
+                const itemName = document.getElementById('item-name').value;
+                const quantity = document.getElementById('quantity-required').value;
+                const description = document.getElementById('item-description').value;
+                const tag = document.getElementById('selected-tag').value;
+                try {
+                    const { data: donorProfile } = await window.authHelper.supabase
+                        .from('donor_profiles')
+                        .select('address, pin_code, city, state')
+                        .eq('id', currentUser.id)
+                        .single();
+                    let imageUrls = [];
+                    if (fileStore.files.length > 0) {
+                        for (let i = 0; i < fileStore.files.length; i++) {
+                            const file = fileStore.files[i];
+                            const fileExt = file.name.split('.').pop();
+                            const fileName = `${currentUser.id}_${Date.now()}_${i}.${fileExt}`;
+                            
+                            // Upload to Supabase storage
+                            const { data: uploadData, error: uploadError } = await window.authHelper.supabase.storage
+                                .from('donation-images')
+                                .upload(`public/${fileName}`, file);
+                            if (uploadError) {
+                                console.error('Upload error:', uploadError);
+                                throw uploadError;
+                            }
+                            
+                            // Get public URL - FIXED: Use the correct method
+                            const { data: urlData } = window.authHelper.supabase.storage
+                                .from('donation-images')
+                                .getPublicUrl(`public/${fileName}`);
+                            console.log('Uploaded image URL:', urlData.publicUrl);
+                            imageUrls.push(urlData.publicUrl);
+                        }
+                    }
+
+                    // Store in database
+                    const { error: donationError } = await window.authHelper.supabase
+                        .from('donations')
+                        .insert([{
+                            donor_id: currentUser.id,
+                            item_name: itemName,
+                            quantity_required: quantity,
+                            description: description,
+                            item_tag: tag,
+                            item_image_url: imageUrls.join(','), // Store as comma-separated
+                            donor_pincode: donorProfile.pin_code,
+                            donor_address: donorProfile.address,
+                            donor_city: donorProfile.city,
+                            donor_state: donorProfile.state,
+                            status: 'available'
+                        }]);
+                    if (donationError) throw donationError;
+
+                    document.getElementById('confirmation-modal').classList.add('hidden');
+                    document.getElementById('success-modal').classList.remove('hidden');
+                    await updateDashboardStats();
+
+                } catch (error) {
+                    console.error('Donation submission error:', error);
+                    alert('Failed to submit donation: ' + error.message);
+                }
+            }
+
+            // FIXED: Proper image URL extraction and display
+            function getImageUrl(imageUrlString) {
+                if (!imageUrlString) {
+                    return 'https://placehold.co/400x300/FFC0CB/333333?text=No+Image';
+                }
+                
+                // Split comma-separated URLs and take the first one
+                const urls = imageUrlString.split(',');
+                if (urls.length > 0 && urls[0].trim() !== '') {
+                    return urls[0].trim();
+                }
+                
+                return 'https://placehold.co/400x300/FFC0CB/333333?text=No+Image';
+            }
+
+            async function loadDonations() {
+                try {
+                    const { data: donations, error } = await window.authHelper.supabase
+                        .from('donations')
+                        .select('*')
+                        .eq('donor_id', currentUser.id)
+                        .order('created_at', { ascending: false });
+                    const container = document.getElementById('donations-container');
+                    container.innerHTML = '';
+                    if (error || !donations || donations.length === 0) {
+                        container.innerHTML = '<p class="col-span-full text-center text-gray-500">You haven\'t made any donations yet.</p>';
+                        return;
+                    }
+
+                    donations.forEach(donation => {
+                        // FIXED: Use the helper function to get image URL
+                        const imageUrl = getImageUrl(donation.item_image_url);
+                        
+                        const card = document.createElement('div');
+                        card.className = 'bg-white rounded-xl shadow-lg overflow-hidden';
+                        card.innerHTML = `
+                            <img src="${imageUrl}" class="w-full h-48 object-cover" alt="${donation.item_name}" onerror="this.src='https://placehold.co/400x300/FFC0CB/333333?text=Image+Error'">
+                            <div class="p-4">
+                                <h3 class="text-xl font-bold">${donation.item_name}</h3>
+                                <p class="text-gray-600">Quantity: ${donation.quantity_required}</p>
+                                <p class="text-gray-600">Tag: ${donation.item_tag}</p>
+                                <p class="text-gray-600 mt-2">${donation.description}</p>
+                                <div class="mt-4">
+                                    <span class="px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(donation.status)}">
+                                    ${donation.status.toUpperCase()}
+                                    </span>
+                                </div>
+                                <p class="text-gray-500 text-sm mt-2">Created: ${new Date(donation.created_at).toLocaleDateString()}</p>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+
+                } catch (error) {
+                    console.error('Error loading donations:', error);
+                }
+            }
+
+            async function loadDonationRequests() {
+                try {
+                    const { data: requests, error } = await window.authHelper.supabase
+                        .from('donation_requests')
+                        .select(`
+                            *,
+                            ngo_profiles (
+                                ngo_name,
+                                city,
+                                state,
+                                contact_phone,
+                                contact_email
+                            ),
+                            donations (
+                                item_name,
+                                quantity_required,
+                                description,
+                                item_image_url
+                            )
+                        `)
+                        .eq('donor_id', currentUser.id)
+                        .order('created_at', { ascending: false });
+                    const container = document.getElementById('requests-container');
+                    container.innerHTML = '';
+
+                    if (error || !requests || requests.length === 0) {
+                        container.innerHTML = '<p class="text-center text-gray-500">No donation requests yet.</p>';
+                        return;
+                    }
+
+                    requests.forEach(request => {
+                        const donation = request.donations;
+                        const ngo = request.ngo_profiles;
+                        
+                        // FIXED: Use the helper function to get image URL
+                        const imageUrl = getImageUrl(donation.item_image_url);
+                        
+                        const card = document.createElement('div');
+                        card.className = 'bg-white rounded-xl shadow-lg p-6';
+                        card.innerHTML = `
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <img src="${imageUrl}" class="w-full md:w-48 h-48 object-cover rounded-lg" alt="${donation.item_name}" onerror="this.src='https://placehold.co/400x300/FFC0CB/333333?text=Image+Error'">
+                                <div class="flex-1">
+                                    <h3 class="text-2xl font-bold">${donation.item_name}</h3>
+                                    <p class="text-gray-600">Quantity: ${donation.quantity_required}</p>
+                                    <p class="text-gray-600 mt-2">${donation.description}</p>
+                                    
+                                    <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                                        <h4 class="font-bold mb-2">NGO Details:</h4>
+                                        <p><strong>Name:</strong> ${ngo.ngo_name}</p>
+                                        <p><strong>Location:</strong> ${ngo.city}, ${ngo.state}</p>
+                                        <p><strong>Contact:</strong> ${ngo.contact_phone} | ${ngo.contact_email}</p>
+                                        <p class="mt-2"><strong>Request Message:</strong> ${request.request_message || 'No message provided'}</p>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <span class="px-3 py-1 rounded-full text-sm font-medium ${getRequestStatusColor(request.status)}">
+                                            ${request.status.toUpperCase()}
+                                        </span>
+                                    </div>
+                        
+                                    ${request.status === 'pending' ?
+                                        `
+                                        <div class="mt-4">
+                                            <button onclick="showRequestDecision('${request.id}')" 
+                                                class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-700">
+                                                Respond to Request
+                                            </button>
+                                        </div>
+                                        ` : ''}
+                                    
+                                    ${request.donor_response ?
+                                        `
+                                        <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                                            <strong>Your Response:</strong> ${request.donor_response}
+                                        </div>
+                                        ` : ''}
+                                </div>
+                            </div>
+                        `;
+                        container.appendChild(card);
+                    });
+
+                } catch (error) {
+                    console.error('Error loading requests:', error);
+                }
+            }
+
+            // REVISED loadDeliveryProcess function
+            async function loadDeliveryProcess() {
+                try {
+                    const { data: tracking, error } = await window.authHelper.supabase
+                        .from('delivery_tracking')
+                        .select(`
+                            *,
+                            donations (item_name, item_image_url, quantity_required, description),
+                            ngo_profiles (ngo_name, address)
+                        `)
+                        .eq('donor_id', currentUser.id)
+                        .order('created_at', { ascending: false });
+
+                    const container = document.getElementById('tracking-container');
+                    container.innerHTML = '';
+
+                    if (error || !tracking || tracking.length === 0) {
+                        container.innerHTML = `
+                            <div class="bg-white rounded-xl shadow-lg p-8 text-center">
+                                <i class="fas fa-truck text-4xl text-gray-400 mb-4"></i>
+                                <h3 class="text-xl font-bold text-gray-700 mb-2">No Active Deliveries</h3>
+                                <p class="text-gray-500">When an NGO accepts your donation request, you'll see the delivery process here.</p>
+                                <p class="text-xs text-gray-400 mt-2">The NGO will update the status from pickup to delivered, so you can track its journey.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    tracking.forEach(track => {
+                        const card = createTrackingCard(track);
+                        container.appendChild(card);
+                    });
+
+                } catch (error) {
+                    console.error('Error loading delivery process:', error);
+                }
+            }
+
+            // NEW createTrackingCard function
+            function createTrackingCard(track) {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-xl shadow-lg p-6 mb-6';
+                const donation = track.donations;
+                const ngo = track.ngo_profiles;
+                const imageUrl = getImageUrl(donation.item_image_url);
+
+                card.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <img src="${imageUrl}" class="w-24 h-24 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-xl font-semibold">${donation.item_name}</h3>
+                                <span class="px-3 py-1 rounded-full text-sm font-medium ${getTrackingStatusColor(track.status)}">
+                                    ${track.status.replace('_', ' ').toUpperCase()}
+                                </span>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <p><strong>Tracking ID:</strong> ${track.tracking_id}</p>
+                                <p><strong>NGO:</strong> ${ngo.ngo_name}</p>
+                                <p><strong>Pickup Address:</strong> ${track.pickup_address}</p>
+                                <p><strong>Delivery Address:</strong> ${ngo.address}</p>
+                                ${track.actual_pickup_date ? `<p><strong>Picked Up:</strong> ${new Date(track.actual_pickup_date).toLocaleDateString()}</p>` : ''}
+                                ${track.actual_delivery_date ? `<p><strong>Delivered:</strong> ${new Date(track.actual_delivery_date).toLocaleDateString()}</p>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                return card;
+            }
+
+            window.showRequestDecision = (requestId) => {
+                currentRequestId = requestId;
+                document.getElementById('request-decision-modal').classList.remove('hidden');
+            };
+
+            async function handleRequestDecision(decision) {
+                try {
+                    const responseMessage = decision === 'accepted' ?
+                        'Thank you for accepting the request! Please coordinate with the NGO for pickup.'
+                        :
+                        'Request rejected. The NGO has been notified.';
+
+                    const { error: requestError } = await window.authHelper.supabase
+                        .from('donation_requests')
+                        .update({ 
+                            status: decision,
+                            donor_response: responseMessage
+                        })
+                        .eq('id', currentRequestId);
+                    if (requestError) throw requestError;
+
+                    const { data: request, error: fetchError } = await window.authHelper.supabase
+                        .from('donation_requests')
+                        .select(`
+                            donation_id,
+                            ngo_id,
+                            donor_id,
+                            donations (donor_address, donor_pincode, donor_city, donor_state),
+                            ngo_profiles (address)
+                        `)
+                        .eq('id', currentRequestId)
+                        .single();
+                    if (fetchError) throw fetchError;
+                    
+                    if (request) {
+                        const newStatus = decision === 'accepted' ? 'accepted' : 'available';
+                        const { error: donationError } = await window.authHelper.supabase
+                            .from('donations')
+                            .update({ status: newStatus })
+                            .eq('id', request.donation_id);
+                        if (donationError) throw donationError;
+
+                        if (decision === 'accepted') {
+                            const pickupAddress = `${request.donations.donor_address}, ${request.donations.donor_city}, ${request.donations.donor_state} - ${request.donations.donor_pincode}`;
+                            const deliveryAddress = request.ngo_profiles.address;
+
+                            const { error: trackingError } = await window.authHelper.supabase
+                                .from('delivery_tracking')
+                                .insert([{
+                                    donation_id: request.donation_id,
+                                    ngo_id: request.ngo_id,
+                                    donor_id: request.donor_id,
+                                    tracking_id: `TRK-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+                                    pickup_address: pickupAddress,
+                                    delivery_address: deliveryAddress,
+                                    status: 'pickup_pending'
+                                }]);
+                            if (trackingError) {
+                                console.error('Failed to create delivery tracking record:', trackingError);
+                                throw new Error('Failed to create delivery tracking record.');
+                            }
+                        }
+                    }
+
+                    document.getElementById('request-decision-modal').classList.add('hidden');
+                    loadDonationRequests();
+                    updateDashboardStats();
+                } catch (error) {
+                    console.error('Error handling request decision:', error);
+                    alert('Failed to update request: ' + error.message);
+                }
+            }
+
+            async function loadProfileData() {
+                try {
+                    const { data: profile, error } = await window.authHelper.supabase
+                        .from('donor_profiles')
+                        .select('*')
+                        .eq('id', currentUser.id)
+                        .single();
+                    if (error) throw error;
+
+                    if (profile) {
+                        document.getElementById('profile-first-name').value = profile.first_name || '';
+                        document.getElementById('profile-last-name').value = profile.last_name || '';
+                        document.getElementById('profile-email').value = profile.email || '';
+                        document.getElementById('profile-phone-number').value = profile.phone_number || '';
+                        document.getElementById('profile-age').value = profile.age || '';
+                        document.getElementById('profile-pin-code').value = profile.pin_code || '';
+                        document.getElementById('profile-address').value = profile.address || '';
+                        await loadDonorBadges();
+                    }
+
+                } catch (error) {
+                    console.error('Error loading profile:', error);
+                }
+            }
+
+            async function loadDonorBadges() {
+                try {
+                    const { data: badges, error } = await window.authHelper.supabase
+                        .from('donor_badges')
+                        .select('*')
+                        .order('min_donations', { ascending: true });
+                    const { data: redeemed, error: redeemedError } = await window.authHelper.supabase
+                        .from('redeemed_rewards')
+                        .select('milestone_level')
+                        .eq('user_id', currentUser.id);
+                    if (error || redeemedError) throw error || redeemedError;
+
+                    const { count: totalDonations } = await window.authHelper.supabase
+                        .from('donations')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('donor_id', currentUser.id);
+                    const badgesContainer = document.getElementById('profile-badges');
+                    badgesContainer.innerHTML = '';
+
+                    badges.forEach(badge => {
+                        const isEarned = totalDonations >= badge.min_donations;
+                        const isRedeemed = redeemed?.some(r => r.milestone_level === badge.min_donations);
+                        
+                        const badgeElement = document.createElement('div');
+                        badgeElement.className = `flex items-center gap-2 px-3 py-2 rounded-lg ${isEarned ? 'bg-yellow-100 border border-yellow-300' : 'bg-gray-100'}`;
+                        badgeElement.innerHTML = `
+                            <i class="${badge.badge_icon} ${isEarned ? 'text-yellow-600' : 'text-gray-400'}"></i>
+                            <span class="text-sm font-medium ${isEarned ? 'text-yellow-800' : 'text-gray-500'}">
+                                ${badge.badge_name}
+                            </span>
+                            ${isRedeemed ? '<i class="fas fa-check text-green-500 ml-1"></i>' : ''}
+                        `;
+                        badgesContainer.appendChild(badgeElement);
+                    });
+
+                } catch (error) {
+                    console.error('Error loading badges:', error);
+                }
+            }
+
+            async function updateProfile(e) {
+                e.preventDefault();
+                try {
+                    const updates = {
+                        first_name: document.getElementById('profile-first-name').value,
+                        last_name: document.getElementById('profile-last-name').value,
+                        phone_number: document.getElementById('profile-phone-number').value,
+                        age: parseInt(document.getElementById('profile-age').value),
+                        pin_code: document.getElementById('profile-pin-code').value,
+                        address: document.getElementById('profile-address').value,
+                        updated_at: new Date().toISOString()
+                    };
+                    const { error } = await window.authHelper.supabase
+                        .from('donor_profiles')
+                        .update(updates)
+                        .eq('id', currentUser.id);
+                    if (error) throw error;
+
+                    alert('Profile updated successfully!');
+                    document.getElementById('user-name').textContent = updates.first_name;
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                    alert('Failed to update profile: ' + error.message);
+                }
+            }
+
+            async function loadRedemptionData() {
+                try {
+                    const { data: badges } = await window.authHelper.supabase
+                        .from('donor_badges')
+                        .select('*')
+                        .order('min_donations', { ascending: true });
+                    const { data: redeemed } = await window.authHelper.supabase
+                        .from('redeemed_rewards')
+                        .select('milestone_level, redeemed_at')
+                        .eq('user_id', currentUser.id);
+                    const { count: totalDonations } = await window.authHelper.supabase
+                        .from('donations')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('donor_id', currentUser.id);
+                    const container = document.getElementById('redemption-content');
+                    container.innerHTML = '';
+
+                    const nextMilestone = badges.find(b => b.min_donations > totalDonations) || badges[badges.length - 1];
+                    const progressPercentage = Math.min((totalDonations / nextMilestone.min_donations) * 100, 100);
+
+                    container.innerHTML += `
+                        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                            <h3 class="text-xl font-bold mb-4">Your Donation Progress</h3>
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">Current Donations: ${totalDonations}</span>
+                                <span class="text-gray-600">Next Goal: ${nextMilestone.min_donations}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${progressPercentage}%"></div>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Keep going! You're making a difference! 🌟</p>
+                        </div>
+                    `;
+                    container.innerHTML += `
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h3 class="text-xl font-bold mb-4">Available Badges</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                ${badges.map(badge => {
+                                    const isEarned = totalDonations >= badge.min_donations;
+                                    const isRedeemed = redeemed?.some(r => r.milestone_level === badge.min_donations);
+                                    
+                                    return `
+                                        <div class="border rounded-lg p-4 text-center ${isEarned ? 'bg-yellow-50 border-yellow-300' : 'bg-gray-50 border-gray-200'}">
+                                            <i class="${badge.badge_icon} text-3xl ${isEarned ? 'text-yellow-500' : 'text-gray-400'} mb-2"></i>
+                                            <h4 class="font-bold ${isEarned ? 'text-yellow-800' : 'text-gray-500'}">${badge.badge_name}</h4>
+                                            <p class="text-sm text-gray-600 mb-2">${badge.min_donations}+ donations</p>
+                                            <p class="text-xs text-gray-500 mb-3">${badge.badge_description}</p>
+                                            ${isEarned ?
+                                            `
+                                                ${isRedeemed ?
+                                                `
+                                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-800">
+                                                        <i class="fas fa-check mr-1"></i> Redeemed
+                                                    </span>
+                                                ` : `
+                                                    <button onclick="redeemBadge(${badge.min_donations})" 
+                                                        class="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-700 text-sm">
+                                                        Redeem Badge
+                                                    </button>
+                                                `}
+                                            ` : `
+                                                <span class="text-gray-400 text-sm">Not yet earned</span>
+                                            `}
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('Error loading redemption data:', error);
+                    container.innerHTML = '<p class="text-center text-gray-500">Error loading rewards data.</p>';
+                }
+            }
+
+            window.redeemBadge = async (milestoneLevel) => {
+                try {
+                    const { data: existing } = await window.authHelper.supabase
+                        .from('redeemed_rewards')
+                        .select('id')
+                        .eq('user_id', currentUser.id)
+                        .eq('milestone_level', milestoneLevel)
+                        .single();
+                    if (existing) {
+                        alert('This badge has already been redeemed!');
+                        return;
+                    }
+
+                    const { data: badge } = await window.authHelper.supabase
+                        .from('donor_badges')
+                        .select('*')
+                        .eq('min_donations', milestoneLevel)
+                        .single();
+                    if (!badge) {
+                        alert('Badge not found!');
+                        return;
+                    }
+
+                    const { error } = await window.authHelper.supabase
+                        .from('redeemed_rewards')
+                        .insert([{
+                            user_id: currentUser.id,
+                            milestone_level: milestoneLevel,
+                            reward_type: 'badge',
+                            reward_details: {
+                                badge_name: badge.badge_name,
+                                badge_description: badge.badge_description,
+                                badge_icon: badge.badge_icon
+                            }
+                        }]);
+                    if (error) throw error;
+
+                    alert(`🎉 Congratulations! You've redeemed the ${badge.badge_name} badge!`);
+                    loadRedemptionData();
+                    loadProfileData();
+                } catch (error) {
+                    console.error('Error redeeming badge:', error);
+                    alert('Failed to redeem badge: ' + error.message);
+                }
+            };
+            
+            async function handleFeedbackSubmit(e) {
+                e.preventDefault();
+                try {
+                    const feedbackText = document.getElementById('feedback-text').value;
+                    if (!feedbackText.trim()) {
+                        alert('Please enter your feedback.');
+                        return;
+                    }
+
+                    const { error } = await window.authHelper.supabase
+                        .from('feedback')
+                        .insert([{
+                            user_id: currentUser.id,
+                            user_type: 'donor',
+                            feedback_text: feedbackText,
+                            rating: 5
+                        }]);
+                    if (error) throw error;
+                    alert('Thank you for your feedback!');
+                    document.getElementById('feedback-text').value = '';
+                } catch (error) {
+                    console.error('Error submitting feedback:', error);
+                    alert('Failed to submit feedback: ' + error.message);
+                }
+            }
+            
+            async function loadFeedbackData() {
+                // This function can be expanded to show past feedback or just the form
+                // For now, it just switches the view and the form is always visible
+            }
+
+            // Helper functions
+            function getStatusColor(status) {
+                const colors = {
+                    'available': 'bg-green-100 text-green-800',
+                    'requested': 'bg-yellow-100 text-yellow-800',
+                    'accepted': 'bg-blue-100 text-blue-800',
+                    'in_transit': 'bg-purple-100 text-purple-800',
+                    'delivered': 'bg-green-100 text-green-800',
+                    'cancelled': 'bg-red-100 text-red-800'
+                };
+                return colors[status] || 'bg-gray-100 text-gray-800';
+            }
+
+            function getRequestStatusColor(status) {
+                const colors = {
+                    'pending': 'bg-yellow-100 text-yellow-800',
+                    'accepted': 'bg-green-100 text-green-800',
+                    'rejected': 'bg-red-100 text-red-800',
+                    'cancelled': 'bg-gray-100 text-gray-800'
+                };
+                return colors[status] || 'bg-gray-100 text-gray-800';
+            }
+            
+            function getTrackingStatusColor(status) {
+                const colors = {
+                    'pickup_pending': 'bg-yellow-100 text-yellow-800',
+                    'picked_up': 'bg-blue-100 text-blue-800',
+                    'in_transit': 'bg-purple-100 text-purple-800',
+                    'delivered': 'bg-green-100 text-green-800'
+                };
+                return colors[status] || 'bg-gray-100 text-gray-800';
+            }
+        });
+    </script>
+  </body>
+</html>

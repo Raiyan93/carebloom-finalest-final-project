@@ -1,0 +1,22 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    {
+      "src": "^/Images/(.*)$",
+      "dest": "/Images/$1"
+    },
+    {
+      "src": "^/auth.js$",
+      "dest": "/auth.js"
+    },
+    {
+      "src": "^/((?!api/)[^/]+?)/?$",
+      "dest": "/$1.html"
+    },
+    {
+      "src": "^/$",
+      "dest": "/landingpage.html"
+    }
+  ]
+}
