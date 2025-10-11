@@ -1,22 +1,14 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
+  "rewrites": [
     {
-      "src": "^/Images/(.*)$",
-      "dest": "/Images/$1"
+      "source": "/",
+      "destination": "/landingpage.html"
     },
     {
-      "src": "^/auth.js$",
-      "dest": "/auth.js"
-    },
-    {
-      "src": "^/((?!api/)[^/]+?)/?$",
-      "dest": "/$1.html"
-    },
-    {
-      "src": "^/$",
-      "dest": "/landingpage.html"
+      "source": "/:path*",
+      "destination": "/:path*.html"
     }
   ]
 }
