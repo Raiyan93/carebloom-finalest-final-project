@@ -28,44 +28,60 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const SUPABASE_URL = "https://ceorbsqwabgioxfcrqvv.supabase.co";
-        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlb3Jic3F3YWJnaW94ZmNycXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzNDQ3OTMsImV4cCI6MjA3NDkyMDc5M30.rcmIGUIg1jeTXu0n6lc5Kpz3BLwmIzm2aOW4V6alOlU";
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const SUPABASE_URL = "https://ceorbsqwabgioxfcrqvv.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlb3Jic3F3YWJnaW94ZmNycXZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzNDQ3OTMsImV4cCI6MjA3NDkyMDc5M30.rcmIGUIg1jeTXu0n6lc5Kpz3BLwmIzm2aOW4V6alOlU";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Hardcoded admin emails - replace with your actual admin emails
-        const ADMIN_EMAILS = ['admin@carebloom.com', 'me@gmail.com'];
+    const ADMIN_EMAILS = ['admin@carebloom.com', 'me@gmail.com'];
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                // Check if user is logged in
-                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-                
-                if (sessionError || !session) {
-                    alert('Please log in to access admin panel');
-                    window.location.href = 'loginsignup.html';
-                    return;
-                }
+    // HIDE CONTENT IMMEDIATELY
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hide everything immediately
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('admin-content').classList.add('hidden');
+        
+        // Show a blank page while checking auth
+        document.body.innerHTML = '<div class="flex items-center justify-center min-h-screen bg-gray-100"><p>Checking authentication...</p></div>';
+        
+        checkAuth();
+    });
 
-                // Check if user is admin
-                if (!ADMIN_EMAILS.includes(session.user.email)) {
-                    alert('Access denied. Admin privileges required.');
-                    window.location.href = 'index.html';
-                    return;
-                }
-
-                // User is admin - show content
-                document.getElementById('loading-state').classList.add('hidden');
-                document.getElementById('admin-content').classList.remove('hidden');
-                
-                // Load pending NGOs
-                await loadPendingNGOs();
-
-            } catch (error) {
-                console.error('Admin panel error:', error);
-                alert('Error accessing admin panel');
+    async function checkAuth() {
+        try {
+            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+            
+            if (sessionError || !session) {
+                alert('Please log in to access admin panel');
                 window.location.href = 'loginsignup.html';
+                return;
             }
-        });
+
+            if (!ADMIN_EMAILS.includes(session.user.email)) {
+                alert('Access denied. Admin privileges required.');
+                await supabase.auth.signOut();
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // ONLY show content if user is authenticated admin
+            document.body.innerHTML = `
+                <div class="bg-gray-100">
+                    <div id="admin-content" class="container mx-auto p-6">
+                        <h1 class="text-3xl font-bold mb-6">NGO Verification Panel</h1>
+                        <div id="pending-ngos" class="space-y-4">
+                            <h2 class="text-2xl font-semibold mb-4">Pending NGOs</h2>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            await loadPendingNGOs();
+
+        } catch (error) {
+            console.error('Admin panel error:', error);
+            window.location.href = 'loginsignup.html';
+        }
+    }
 
         // REST OF YOUR ORIGINAL ADMIN FUNCTIONS REMAIN THE SAME
         async function loadPendingNGOs() {
